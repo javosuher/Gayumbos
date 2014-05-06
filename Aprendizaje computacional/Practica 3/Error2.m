@@ -1,6 +1,5 @@
 %Luis José Quintana Bolaño y Javier Osuna Herrera
 
-function []=Error()
 NUMPOINTS=50;
 MAX=15;
 ITERA=100;
@@ -42,4 +41,3 @@ EEbt=EEbt+EEb;
 end
 EG=EGt/ITERA;EE=EEt/ITERA;EGb=EGbt/ITERA;EEb=EEbt/ITERA;
 figure, plot(log(EG),'b');hold on; plot(log(EE),'r'); plot(log(EGb),'m'); plot(log(EEb),'g'); legend('EG','EE','EGb','EEb'); hold off;
-end

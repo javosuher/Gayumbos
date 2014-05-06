@@ -19,4 +19,4 @@ hc = fbrval(c, w, c, s);
 figure, plot(x, t, 'om'); hold on;
 plot(x, h, 'b');
 plot(c, hc, 'sr');
-Error();
+error();
