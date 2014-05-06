@@ -1,3 +1,5 @@
+%Luis José Quintana Bolaño y Javier Osuna Herrera
+
 clear all
 close all
 clc
