@@ -6,6 +6,6 @@ function w = fbrfit(x, y, centros, sigma)
     try
     w = pinv(phi) * y';
     catch err
-        w = zeros(length(centros)+1,1);
+        w = zeros(length(centros)+1,1)
     end
 end
