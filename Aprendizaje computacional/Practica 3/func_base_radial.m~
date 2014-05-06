@@ -25,5 +25,5 @@ function W = func_base_radial()
 		phi_2(i,:)=normpdf(x2,x(i),sigma);
 	end
 	y2=w'*phi_2;
-	plot(x2,y2,'or');
+	plot(x2,y2,'r');
 end
