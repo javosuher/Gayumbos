@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<deployment-project plugin="plugin.apptool" plugin-version="1.0">
+  <configuration target="target.mlapps" target-name="Package App" name="Stellaria Demo" location="d:\MATLAB\R2011a\work\StellariaTechDemo\StellariaTechDemoB20120910" file="d:\MATLAB\R2011a\work\StellariaTechDemo\StellariaTechDemoB20120910\Stellaria Demo.prj" build-checksum="322868219">
+    <param.appname>Stellaria Demo</param.appname>
+    <param.authnamewatermark>Mingjing Zhang</param.authnamewatermark>
+    <param.email />
+    <param.company />
+    <param.icon />
+    <param.summary>An arcade-style space shooter with high quality graphics.</param.summary>
+    <param.description>Stellaria is the first serious attempt to create fast-paced sprite-based arcade games with MATLAB. The inital purpose was to defy the common belief that MATLAB, a scientific computing software, is not fast enough for such a game, and the final outcome is extraordinary. 
+
+In this single-stage demo, the players must navigate their planes (WSAD for 1P, arrow keys for 2P) through a bullet hell and defeat enemy spacecrafts with their unlimited firepower (U - 1P bullet, I - 1P bomb; INS - 2P bullet, DEL - 2P bomb), as they would do in any space shooting game. It might be expanded into a full-length game in the near future, if sufficient positive feedback is received.</param.description>
+    <param.screenshot>D:\MATLAB\R2011a\work\StellariaTechDemo\ScreenShotSmall.png</param.screenshot>
+    <param.version>1.4.0</param.version>
+    <param.products.name>
+      <item>MATLAB</item>
+    </param.products.name>
+    <param.products.id>
+      <item>1</item>
+    </param.products.id>
+    <param.products.version>
+      <item>8.0</item>
+    </param.products.version>
+    <param.platforms />
+    <param.output>${PROJECT_ROOT}\Stellaria Demo.mlappinstall</param.output>
+    <param.guid>a383811d-74f4-4306-8de9-b2548dcdf215</param.guid>
+    <unset>
+      <param.email />
+      <param.company />
+      <param.icon />
+      <param.platforms />
+    </unset>
+    <fileset.main>
+      <file>${PROJECT_ROOT}\stl_StellariaMainApp.m</file>
+    </fileset.main>
+    <fileset.depfun>
+      <file>${PROJECT_ROOT}\stl_addToGlobalEnemies.m</file>
+      <file>${PROJECT_ROOT}\stl_addToGlobalImageHandles.m</file>
+      <file>${PROJECT_ROOT}\stl_addToGlobalNeutralObjects.m</file>
+      <file>${PROJECT_ROOT}\stl_addToGlobalPlayerBullets.m</file>
+      <file>${PROJECT_ROOT}\stl_addToGlobalPlayers.m</file>
+      <file>${PROJECT_ROOT}\stl_addToGlobalTextHandles.m</file>
+      <file>${PROJECT_ROOT}\stl_addToNeutralImageHandles.m</file>
+      <file>${PROJECT_ROOT}\stl_CALLBACK_CloseRequestFcn.m</file>
+      <file>${PROJECT_ROOT}\stl_CALLBACK_winResizeFcn.m</file>
+      <file>${PROJECT_ROOT}\stl_collisionDetection.m</file>
+      <file>${PROJECT_ROOT}\stl_defineDefaultEnemies.m</file>
+      <file>${PROJECT_ROOT}\stl_deleteFromGlobalEnemies.m</file>
+      <file>${PROJECT_ROOT}\stl_deleteFromGlobalFriendlyFire.m</file>
+      <file>${PROJECT_ROOT}\stl_deleteFromGlobalImageHandles.m</file>
+      <file>${PROJECT_ROOT}\stl_deleteFromGlobalNeutralObjects.m</file>
+      <file>${PROJECT_ROOT}\stl_deleteFromGlobalTextHandles.m</file>
+      <file>${PROJECT_ROOT}\stl_deleteFromNeutralImageHandles.m</file>
+      <file>${PROJECT_ROOT}\stl_enterEnemies.m</file>
+      <file>${PROJECT_ROOT}\stl_enterImpromptuEnemies.m</file>
+      <file>${PROJECT_ROOT}\stl_initVariables.m</file>
+      <file>${PROJECT_ROOT}\stl_KeyDown.m</file>
+      <file>${PROJECT_ROOT}\stl_KeyUp.m</file>
+      <file>${PROJECT_ROOT}\stl_preprocessStage.m</file>
+      <file>${PROJECT_ROOT}\stl_processEnemies.m</file>
+      <file>${PROJECT_ROOT}\stl_processNeutralObjects.m</file>
+      <file>${PROJECT_ROOT}\stl_processPlayer.m</file>
+      <file>${PROJECT_ROOT}\stl_UpdateObjectPos.m</file>
+      <file>${PROJECT_ROOT}\stl_updateStarScroll.m</file>
+    </fileset.depfun>
+    <fileset.resources>
+      <file>${PROJECT_ROOT}\ENEMY_ANIM.mat</file>
+      <file>${PROJECT_ROOT}\ENEMY_BULLET_ANIM.mat</file>
+      <file>${PROJECT_ROOT}\ENEMY_BULLET_ANIM2.mat</file>
+      <file>${PROJECT_ROOT}\EXPLO_ANIM.mat</file>
+      <file>${PROJECT_ROOT}\Music\MOTN11.mid</file>
+      <file>${PROJECT_ROOT}\Music\MOTN2.mid</file>
+      <file>${PROJECT_ROOT}\Music\MOTN8.mid</file>
+      <file>${PROJECT_ROOT}\OBJ_GENERIC_ANIM.mat</file>
+      <file>${PROJECT_ROOT}\PLAYER_ANIM.mat</file>
+      <file>${PROJECT_ROOT}\PLAYER_SFX.mat</file>
+      <file>${PROJECT_ROOT}\Stages\stl_STAGE_Credits.m</file>
+      <file>${PROJECT_ROOT}\Stages\stl_STAGE_stage1.m</file>
+      <file>${PROJECT_ROOT}\Stages\stl_STAGE_TitleScreen.m</file>
+      <file>${PROJECT_ROOT}\Util\midi\readmidi2.m</file>
+      <file>${PROJECT_ROOT}\Util\midi\readmidiNew.m</file>
+      <file>${PROJECT_ROOT}\Util\midi\sound.tbl</file>
+      <file>${PROJECT_ROOT}\Util\midi\sound\290.wav</file>
+      <file>${PROJECT_ROOT}\Util\midi\sound\291.wav</file>
+      <file>${PROJECT_ROOT}\Util\midi\sound\292.wav</file>
+      <file>${PROJECT_ROOT}\Util\midi\sound\293.wav</file>
+      <file>${PROJECT_ROOT}\Util\midi\sound\294.wav</file>
+      <file>${PROJECT_ROOT}\Util\midi\sound\295.wav</file>
+      <file>${PROJECT_ROOT}\Util\midi\sound\296.wav</file>
+      <file>${PROJECT_ROOT}\Util\midi\sound\297.wav</file>
+      <file>${PROJECT_ROOT}\Util\midi\sound\298.wav</file>
+      <file>${PROJECT_ROOT}\Util\midi\synth2.m</file>
+      <file>${PROJECT_ROOT}\Util\midi\synthBackup.m</file>
+      <file>${PROJECT_ROOT}\Util\stl_utl_addWreckageToExplosionBkg.m</file>
+    </fileset.resources>
+    <fileset.package />
+    <build-deliverables>
+      <file name="Stellaria Demo.mlappinstall" location="d:\MATLAB\R2011a\work\StellariaTechDemo\StellariaTechDemoB20120910" optional="false">d:\MATLAB\R2011a\work\StellariaTechDemo\StellariaTechDemoB20120910\Stellaria Demo.mlappinstall</file>
+    </build-deliverables>
+    <workflow />
+    <matlab>
+      <root>D:\MATLAB\R2012b</root>
+    </matlab>
+    <platform>
+      <unix>false</unix>
+      <mac>false</mac>
+      <windows>true</windows>
+      <win2k>false</win2k>
+      <winxp>false</winxp>
+      <vista>false</vista>
+      <linux>false</linux>
+      <solaris>false</solaris>
+      <osver>6.1</osver>
+      <os32>true</os32>
+      <os64>false</os64>
+      <arch>win32</arch>
+      <matlab>true</matlab>
+    </platform>
+  </configuration>
+</deployment-project>
+
