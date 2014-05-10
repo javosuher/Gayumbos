@@ -1,0 +1,13 @@
+function salida = energia (senal, num_muestras, despl, ventana)
+    h = ventanal(ventana, length(senal));
+    
+    for i = 1 : length(senal)
+        salida = sena
+    end
+    %salida = sum((senal .* h).^2);
+    %for i = 1 : length(senal)
+    %    for j = 1  : 
+    %        salida(i) = senal(j)^2 * h(j - i)^2;
+    %    end
+    %end
+end
