@@ -3,7 +3,7 @@
 function []=Error()
 NUMPOINTS=50;
 MAX=15;
-ITERA=100;
+ITERA=10;
 EGt=zeros(1,MAX);
 EEt=zeros(1,MAX);
 EGbt=zeros(1,MAX);
