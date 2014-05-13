@@ -1,33 +1,51 @@
+% Luis José Quintana Bolaño y Javier Osuna Herrera
 
-x=load('wine_data.txt');
-k=5;
-c1=x(find(x(:,1)==1),2:end);
-c2=x(find(x(:,1)==2),2:end);
-c3=x(find(x(:,1)==3),2:end);
+% Limpieza
+clear all
+close all
+clc
 
-y1=zeros(3,length(c1));
-y2=zeros(3,length(c2));
-y3=zeros(3,length(c3));
+% Cargamos los datos y los dividimos en las distintas clases
+% correspondientes
+x = load('wine_data.txt');
+c1 = x(find(x(:, 1) == 1),2 : end);
+c2 = x(find(x(:, 1) == 2),2 : end);
+c3 = x(find(x(:, 1) == 3),2 : end);
+y1 = zeros(length(c1), 3);
+y2 = zeros(length(c2), 3);
+y3 = zeros(length(c3), 3);
 y1(:,1)=1;
 y2(:,2)=2;
 y3(:,3)=3;
-for i=1:k
-	[x1t,x1v,y1t,y1v] = crossval(c1,y1,k,i);
-	[x2t,x2v,y2t,y2v] = crossval(c2,y2,k,i);
-	[x3t,x3v,y3t,y3v] = crossval(c3,y3,k,i);
-	
-	%for i=3:10
-	%	net=newff(minmax(x),[i 3],{'tansig' 'logsig'},'trainlm');
-		net=newff(minmax(x),[i 5],{'tansig' 'logsig'},'trainlm');
 
-		net.trainParam.showWindow=0;
-		net.trainParam.epochs=300;
-		net.trainParam.goal=0.01;
+n = 5; % 5 grupos
+nr = 20; % Neuronas de la capa oculta
+EG = zeros(nr, 1);
+EGt = zeros(nr, 1);
+for i = 1 : n
+    % Se dividen en test y entrenamiento
+    [x1t, x1v, y1t, y1v] = crossval(c1, y1, n, i);
+    [x2t, x2v, y2t, y2v] = crossval(c2, y2, n, i);
+    [x3t, x3v, y3t, y3v] = crossval(c3, y3, n, i);
+    
+    for j = 1 : nr
+		net = newff(minmax([x1t;x2t;x3t]'), [j 3], {'tansig' 'logsig'}, 'trainlm');
 
-		net=train(net,[x1t;x2t;x3t],[y1t;y2t;y3t]);
-		y=sim(net,[x1v;x2v;x3v]);
-	%end;
-	EG(i) = sum(([y1v;y2v;y3v]-y).^2)/length(y);
+		net.trainParam.showWindow = 0;
+		net.trainParam.epochs = 100;
+		net.trainParam.goal = 0.01;
+
+		net = train(net,[x1t; x2t; x3t]', [y1t; y2t; y3t]'); 
+		y = sim(net, [x1v; x2v; x3v]');
+        
+        [~, indv] = max(y);
+        [~, ind] = max([y1v;y2v;y3v]');
+        EG(j) = (length(find(indv ~= ind))^2) / length(indv);
+    end
+    EGt = EGt + EG;
 end;
-error=mean(EG)
+
+EGt = EGt / n;
+figure, plot(EGt, 'b');
+legend('Error de Generalización');
 
