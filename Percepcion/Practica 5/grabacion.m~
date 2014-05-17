@@ -1,8 +1,0 @@
-function senal = grabacion (t, Fs, Ch)
-	if exist('OCTAVE_VERSION') ~= 0
-    	
-    else
-    	senal = wavrecord(t, Fs, Ch)
-    end
-end
-
