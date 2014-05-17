@@ -1,5 +1,5 @@
 function segmentos_enventanados = enventanado(segmentos, ventana)
-    h = ventanal(ventana, length(segmentos));
+    h = ventanal(ventana, size(segmentos,1));
     % nMuestras = size(segmentos, 3);
     nMuestras = size(segmentos, 2);
     % segmentos_enventanados = zeros(size(segmentos, 1), size(segmentos, 2), size(segmentos, 3));

@@ -6,11 +6,15 @@ clc
 senal = grabacion(2*8000, 8000, 1);
 reproducir(senal);
 figure, plot(senal);
-salida = energia(senal, 8000, 4000, 'hamming');
+salida = energia(senal, 20, 10, 'hamming');
+figure, plot(salida);
+salida = magnitud(senal, 20, 10, 'hamming');
+figure, plot(salida);
+salida = cruces_por_cero(senal, 20, 10, 'hamming');
 figure, plot(salida);
 % psenal = preenfasis(senal, 0.95);
 % figure, plot(psenal);
-% segmentos = segmentacion(psenal, 8000, 4000);
+% segmentos = segmentacion(psenal, 20, 10);
 % % nMuestras = size(segmentos, 3);
 % nMuestras = size(segmentos, 2);
 % for i = 1 : nMuestras
