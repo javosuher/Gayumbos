@@ -1,7 +1,7 @@
-function senal_recortada = inicio_fin (senal, num_muestras, despl)
-    ventana = 'hamming';
-    M = magnitud(senal, num_muestras, despl, ventana);
-    Z = cruces_por_cero(senal, num_muestras, despl, ventana);
+function senal_recortada = inicio_fin (senv)
+
+    M = magnitud(senv);
+    Z = cruces_por_cero(senv);
     
     Ms = M(1 : 10);
     Zs = Z(1 : 10);
@@ -23,15 +23,15 @@ function senal_recortada = inicio_fin (senal, num_muestras, despl)
     else
         el=11;
     end
-    pene=0;
+    count=0;
     lz=le;
     for i = le : -1 : el
         if Z(i) > UmbCruCero
-            pene=pene+1;
+            count=count+1;
         else
-            pene=0;
+            count=0;
         end
-        if pene ==3
+        if count ==3
             lz=i;
         end
     end
@@ -45,16 +45,16 @@ function senal_recortada = inicio_fin (senal, num_muestras, despl)
     else
         el=length(M);
     end
-    pene=0;
+    count=0;
     
     lo=le;
     for i = le : el
         if Z(i) > UmbCruCero
-            pene=pene+1;
+            count=count+1;
         else
-            pene=0;
+            count=0;
         end
-        if pene==3
+        if count==3
             lo=i;
         end
     end

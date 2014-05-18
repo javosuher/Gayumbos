@@ -34,10 +34,6 @@ function senal_recortada = inicio_fin (senal, num_muestras, despl)
         if pene ==3
             lz=i;
         end
-        %plot(M); hold on;
-        %plot(i,0,'og');
-        %plot(lz, M(lz), 'or'); hold off;
-        %pause
     end
     
     ln=find(M(lz:end)>UmbSupEnrg,1,'last') + lz-1;
@@ -61,11 +57,6 @@ function senal_recortada = inicio_fin (senal, num_muestras, despl)
         if pene==3
             lo=i;
         end
-        %plot(M); hold on;
-        %plot(i,0,'og');
-        %plot(lo,M(lo),'om');
-        %plot(lz, M(lz), 'or'); hold off;
-        %pause
     end
     senal_recortada = senal(lz*(num_muestras-despl) : lo*(num_muestras-despl));
 end
