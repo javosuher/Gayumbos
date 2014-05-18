@@ -64,6 +64,6 @@ function [pri,fin] = inicio_fin (senv, despl)
     %figure, plot(senal_recortada)
 	%reproducir(senal_recortada);
 	%pause
-    lz=lz*(size(senv,1)-despl)
-    lo=lo*(size(senv,1)-despl)
+    pri=lz*(size(senv,1)-despl)
+    fin=lo*(size(senv,1)-despl)
 end
