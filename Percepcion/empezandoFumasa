@@ -1,0 +1,17 @@
+senal = grabacion(3*8000, 8000, 1);
+reproducir(senal);
+figure, plot(senal);
+
+nun_muestras = 128;
+despl = 64;
+
+senal_recortada = inicio_fin(senal, nun_muestras, despl);
+figure, plot(senal_recortada)
+
+reproducir(senal_recortada);
+
+psenal = preenfasis(senal_recortada, 0.95);
+segmentos = segmentacion(psenal, 20, 10);
+segEnv = enventanado(segmentos, 'hamming');
+
+
