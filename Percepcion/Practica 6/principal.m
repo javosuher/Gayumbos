@@ -13,7 +13,8 @@ psenal = preenfasis(senal, 0.95);
 segmentos = segmentacion(psenal, num_muestras, despl);
 segEnv = enventanado(segmentos, 'hamming');
 
-senal_recortada = inicio_fin(segEnv);
+[lz,lo] = inicio_fin(segEnv,despl);
+senal_recortada=senal(lz:lo);
 figure, plot(senal_recortada)
 
 reproducir(senal_recortada);

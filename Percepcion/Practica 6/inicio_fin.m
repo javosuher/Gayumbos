@@ -1,4 +1,4 @@
-function senal_recortada = inicio_fin (senv)
+function [pri,fin] = inicio_fin (senv, despl)
 
     M = magnitud(senv);
     Z = cruces_por_cero(senv);
@@ -58,5 +58,12 @@ function senal_recortada = inicio_fin (senv)
             lo=i;
         end
     end
-    senal_recortada = senal(lz*(num_muestras-despl) : lo*(num_muestras-despl));
+    %senal_recortada = senal(lz*(size(senv,1)-despl) : lo*(size(senv,1)-despl));
+    
+    %senal_recortada = reshape(senv(1:end-despl,lz:lo),[],1);
+    %figure, plot(senal_recortada)
+	%reproducir(senal_recortada);
+	%pause
+    pri=lz*(size(senv,1)-despl)
+    fin=lo*(size(senv,1)-despl)
 end
