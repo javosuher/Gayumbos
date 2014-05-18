@@ -58,13 +58,13 @@ function [pri,fin] = inicio_fin (senv, despl)
             lo=i;
         end
     end
-    lz,lo,(size(senv,1)-despl)
+    %lz,lo,(size(senv,1)-despl)
     %senal_recortada = senal(lz*(size(senv,1)-despl) : lo*(size(senv,1)-despl));
     
     %senal_recortada = reshape(senv(1:end-despl,lz:lo),[],1);
     %figure, plot(senal_recortada)
 	%reproducir(senal_recortada);
 	%pause
-    pri=lz*(size(senv,1)-despl)
-    fin=lo*(size(senv,1)-despl)
+    pri=lz*(despl)
+    fin=lo*(despl)
 end
