@@ -4,17 +4,20 @@ clc
 
 imagen = load('matricula_degradada.mat');
 imagen = imagen.matricula;
-figure, imshow(imagen,[0 255]);
-% Simular el una imagen degradada por una cámara enmovimiento
+figure, imshow(imagen,[0 255]); pause()
+% Simular el una imagen degradada por una cï¿½mara enmovimiento
 angulo = 45;  % en grados
+subplot(1,2,1)
+imshow(imagen,[0 255])
 for i = 40 : 50 % Probamos en un intervalo
-    longitud = i; % en píxeles
+    longitud = i; % en pï¿½xeles
     % Proceso de distorcionamiento lineal
     PSF = fspecial('motion', longitud, angulo);
     im_restaurada = deconvwnr(imagen,PSF,0);
+    subplot(1,2,2)
     imshow(uint8(im_restaurada),[]);
     disp(['Vamos por ' int2str(i)]);
     pause()
 end
 
-% la solución es la longitud igual a 50 y el angulo es 45º!!
+% la soluciï¿½n es la longitud igual a 50 y el angulo es 45ï¿½!!

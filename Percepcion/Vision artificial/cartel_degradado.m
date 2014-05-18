@@ -3,17 +3,20 @@ close all
 clc
 
 imagen = imread('cartel_degradado.tif');
-figure, imshow(imagen,[]);
-% Simular el una imagen degradada por una cámara enmovimiento
+figure, imshow(imagen,[]); pause()
+% Simular el una imagen degradada por una cï¿½mara enmovimiento
+subplot(1,2,1)
+imshow(imagen,[])
 angulo = 0;  % en grados
-for i = 45 : 55 % Probamos en un intervalo
-    longitud = i; % en píxeles
+for i = 50 : 51 % Probamos en un intervalo
+    longitud = i; % en pï¿½xeles
     % Proceso de distorcionamiento lineal
     PSF = fspecial('motion', longitud, angulo);
     im_restaurada = deconvwnr(imagen,PSF,0);
+    subplot(1,2,2)
     imshow(uint8(im_restaurada),[]);
     disp(['Vamos por ' int2str(i)]);
     pause()
 end
 
-% la solución es la longitud igual a 51 y el angulo es 0º!!
+% la soluciï¿½n es la longitud igual a 51 y el angulo es 0ï¿½!!

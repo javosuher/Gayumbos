@@ -1,7 +1,9 @@
 function [] = reproducir(senal)
-	if isunix
+	if exist('OCTAVE_VERSION') ~= 0
+		playaudio(senal, 8000);
+    else if isunix
         soundsc(senal,8000);
-    else 
+        else 
     	wavplay(senal, 8000);
     end
 end

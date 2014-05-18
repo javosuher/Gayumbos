@@ -1,3 +1,3 @@
-function salida = magnitud(Envsen)
-    salida = sum(enventanado(abs(Envsen)));
+function salida = magnitud(env)
+    salida = sum(abs(env));
 end
