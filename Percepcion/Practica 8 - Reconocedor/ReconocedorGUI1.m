@@ -22,7 +22,7 @@ function varargout = ReconocedorGUI1(varargin)
 
 % Edit the above text to modify the response to help ReconocedorGUI1
 
-% Last Modified by GUIDE v2.5 18-May-2014 23:15:02
+% Last Modified by GUIDE v2.5 19-May-2014 00:58:13
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -55,9 +55,6 @@ function ReconocedorGUI1_OpeningFcn(hObject, eventdata, handles, varargin)
 % Choose default command line output for ReconocedorGUI1
 handles.output = hObject;
 
-% Update handles structure
-guidata(hObject, handles);
-
 % UIWAIT makes ReconocedorGUI1 wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
 
@@ -66,14 +63,24 @@ axes(handles.axes2);
 [x,map] = imread('glidder.png','png');
 image(x), colormap(map), axis off, hold on
 
-x=0:pi./525:3.*2.*pi;
-handles.Hamming = sin(x);
-handles.Hanning = cos(x);
-handles.Rectwin = tan(x);
+% Valores por defecto
+handles.t = 2;
+handles.Fs = 8000;
+handles.n_muestras = 128;
+handles.a = 0.95;
+handles.despl = 64;
+%Ventanas
+handles.Hamming = 'hamming';
+handles.Hanning = 'hanning';
+handles.Rectwin = 'rectwin';
+handles.Bartlett = 'bartlett';
+handles.Blackman = 'blackman';
+handles.Boxcar = 'boxcar';
+handles.Triang = 'triang';
+handles.Gausswin = 'gausswin';
 handles.ventana = handles.Hamming;
-axes(handles.axes1);
-plot(x, handles.ventana);
-guidata(hObject,handles);
+
+guidata(hObject, handles); % Update handles structure
 
 
 
@@ -228,29 +235,6 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-% --- Executes on button press in pushbutton1.
-function pushbutton1_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton1 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-t = handles.t;
-Fs = handles.Fs;
-senal = grabacion(t * Fs, Fs, 1);
-handles.senal = senal;
-guidata(hObject, handles);
-axes(handles.axes1);
-plot(senal)
-
-
-% --- Executes on button press in pushbutton2.
-function pushbutton2_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton2 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-reproducir(handles.senal);
-
 
 % --- Executes on selection change in ventana.
 function ventana_Callback(hObject, eventdata, handles)
@@ -261,20 +245,25 @@ function ventana_Callback(hObject, eventdata, handles)
 % Hints: contents = cellstr(get(hObject,'String')) returns ventana contents as cell array
 %        contents{get(hObject,'Value')} returns selected item from ventana
 
-x=0:pi./525:3.*2.*pi;
 val=get(hObject,'Value');
 str=get(hObject,'String');
-axes(handles.axes1);
 switch str{val}
     case 'Hanning'
-        handles.ventana=handles.Hanning;
-        plot(x, handles.ventana);
+        handles.ventana = handles.Hanning;
     case 'Hamming'
-        handles.ventana=handles.Hamming;
-        plot(x, handles.ventana);
+        handles.ventana = handles.Hamming;
     case 'Rectwin'
-        handles.ventana=handles.Rectwin;
-        plot(x, handles.ventana);
+        handles.ventana = handles.Rectwin;
+    case 'Bartlett'
+        handles.ventana = handles.Bartlett;
+    case 'Blackman'
+        handles.ventana = handles.Blackman;
+    case 'Boxcar'
+        handles.ventana = handles.Boxcar;
+    case 'Triang'
+        handles.ventana = handles.Triang;
+    case 'Gausswin'
+        handles.ventana = handles.Gausswin;
 end
 
 
@@ -289,3 +278,37 @@ function ventana_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
+
+% --- Executes on button press in botonGrabar.
+function botonGrabar_Callback(hObject, eventdata, handles)
+% hObject    handle to botonGrabar (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+t = handles.t;
+Fs = handles.Fs;
+senal = grabacion(t * Fs, Fs, 1);
+handles.senal = senal;
+guidata(hObject, handles);
+axes(handles.axes1);
+plot(senal)
+
+
+% --- Executes on button press in botonReproducir.
+function botonReproducir_Callback(hObject, eventdata, handles)
+% hObject    handle to botonReproducir (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+reproducir(handles.senal);
+
+
+% --- Executes on button press in botonJuego.
+function botonJuego_Callback(hObject, eventdata, handles)
+% hObject    handle to botonJuego (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+ReconocedorGUI2
+%uiwait % Espera
+%close ReconocedorGUI1 %cierra
