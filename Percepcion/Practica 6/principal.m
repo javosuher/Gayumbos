@@ -3,9 +3,9 @@ clear all
 clc
 % -----------------------------------------
 
-%senall = grabacion(2*8000, 8000, 1);
+senall = grabacion(2*8000, 8000, 1);
 load senal.mat
-senall=senal;
+%senall=senal;
 reproducir(senal);
 figure, plot(senal);
 num_muestras = 240;

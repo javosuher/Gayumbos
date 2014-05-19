@@ -3,7 +3,7 @@ function [coeficientes_delta] = deltacepstrum(cepstrum)
 	p = 3;
 	mascara(1:p) = 0;
 	mascara(p+1:p+n_columnas) = 1;
-	mascara(p+n_columnas+1:p+n_columnas+p) = 0;
+	mascara(p+n_columnas+1:p+n_columnas+3) = 0;
 
 	lceps = [zeros(n_filas, p) cepstrum zeros(n_filas, p)];
 

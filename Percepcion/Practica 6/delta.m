@@ -1,8 +1,7 @@
 function concef= delta(cepstrum, p)
 	[n_filas, n_columnas] = size(cepstrum);
-	mascara(1:p) = 0;
+	mascara=zeros(1,2*p+n_columnas);
 	mascara(p+1:p+n_columnas) = 1;
-	mascara(p+n_columnas+1:p+n_columnas+3) = 0;
 
 	lceps = [zeros(n_filas, p) cepstrum zeros(n_filas, p)];
 
@@ -11,7 +10,7 @@ function concef= delta(cepstrum, p)
 
 	contador = 1;
 	for i=p+1:n_columnas+p
-		ind = vector_p + i
+		ind = vector_p + i;
 		num = sum(lceps(:, ind).*matriz_p, 2);
 		den = sum((mascara(1, ind).*vector_p).^2, 2);
 		C(:, contador) = num./den;

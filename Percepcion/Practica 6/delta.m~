@@ -1,8 +1,7 @@
 function concef= delta(cepstrum, p)
 	[n_filas, n_columnas] = size(cepstrum);
-	mascara(1:p) = 0;
+	mascara=zeros(1,2*p+n_columnas);
 	mascara(p+1:p+n_columnas) = 1;
-	mascara(p+n_columnas+1:p+n_columnas+3) = 0;
 
 	lceps = [zeros(n_filas, p) cepstrum zeros(n_filas, p)];
 
@@ -19,5 +18,5 @@ function concef= delta(cepstrum, p)
 	end
 
 	coeficientes_delta = C;
-	concef=[cepstrum;coeficientes_delta);
+	concef=[cepstrum;coeficientes_delta];
 end
