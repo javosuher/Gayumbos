@@ -1,8 +1,11 @@
-function [] = reproducir(senal)
+function [] = reproducir(senal, freq)
+    if nargin<2
+           freq=8000;
+    end
 	if isunix
-        soundsc(senal,8000);
+        soundsc(senal,freq);
     else 
-    	wavplay(senal, 8000);
+    	wavplay(senal,freq);
     end
 end
 

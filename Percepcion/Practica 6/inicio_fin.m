@@ -1,8 +1,8 @@
-function [pri,fin] = inicio_fin (senv, despl)
+function [pri,fin] = inicio_fin (senv)%, despl)
 
     M = magnitud(senv);
     Z = cruces_por_cero(senv);
-    
+    size(M)
     Ms = M(1 : 10);
     Zs = Z(1 : 10);
     
@@ -65,6 +65,6 @@ function [pri,fin] = inicio_fin (senv, despl)
     %figure, plot(senal_recortada)
 	%reproducir(senal_recortada);
 	%pause
-    pri=lz*(despl)
-    fin=lo*(despl)
+    pri=lz;%*(despl)
+    fin=lo;%*(despl)
 end
