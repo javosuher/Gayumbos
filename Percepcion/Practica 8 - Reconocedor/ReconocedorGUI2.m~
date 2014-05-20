@@ -56,9 +56,6 @@ function ReconocedorGUI2_OpeningFcn(hObject, eventdata, handles, varargin)
 handles.output = hObject;
 
 puntos = 0;
-for i = 1 : 30
-    grabacion(handles);
-end
 
 
 
@@ -90,7 +87,7 @@ else
     s = 0;
 end
 
-function grabacion(handles)
+function grabacionJ(hObject, handles)
 
 load('parametrosJuego.mat');
 senal = grabacion(t * Fs, Fs, 1);
@@ -98,7 +95,7 @@ ppatron = preenfasis(senal, a);
 segmentos = segmentacion(ppatron, n_muestras, despl);
 segEnv = enventanado(segmentos, ventana);
 [lz, lo] = inicio_fin(segEnv);
-coeficientes = delta(cepstrum(segEnv(:, lz : lo), cepstrum + 1), p);
+coeficientes = delta(cepstrum(segEnv(:, lz : lo), ceps + 1), p);
 patron = normaliza(coeficientes);
 handles.patron = patron;
 

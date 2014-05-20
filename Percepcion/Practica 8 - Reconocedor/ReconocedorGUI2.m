@@ -55,12 +55,6 @@ function ReconocedorGUI2_OpeningFcn(hObject, eventdata, handles, varargin)
 % Choose default command line output for ReconocedorGUI2
 handles.output = hObject;
 
-puntos = 0;
-for i = 1 : 30
-    grabacion(handles);
-    
-end
-
 
 
 % Update handles structure
@@ -80,10 +74,16 @@ function varargout = ReconocedorGUI2_OutputFcn(hObject, eventdata, handles)
 % Get default command line output from handles structure
 varargout{1} = handles.output;
 
-function s = comparacion(handles)
+puntos = 0;
+for i = 1 : 30
+    patron = grabacionJ(handles);
+    
+end
+
+function s = comparacion(patron)
 
 load('patrones.mat');
-comparacion = [DTW(handles.patron, patron1) DTW(handles.patron, patron2) DTW(handles.patron, patron3) DTW(handles.patron, patron4)];
+comparacion = [DTW(patron, patron1) DTW(patron, patron2) DTW(patron, patron3) DTW(patron, patron4)];
 [valor, indice] = min(comparacion);
 if valor < 300
     s = indice;
@@ -91,7 +91,7 @@ else
     s = 0;
 end
 
-function grabacion(handles)
+function patron = grabacionJ()
 
 load('parametrosJuego.mat');
 senal = grabacion(t * Fs, Fs, 1);
@@ -99,9 +99,6 @@ ppatron = preenfasis(senal, a);
 segmentos = segmentacion(ppatron, n_muestras, despl);
 segEnv = enventanado(segmentos, ventana);
 [lz, lo] = inicio_fin(segEnv);
-coeficientes = delta(cepstrum(segEnv(:, lz : lo), cepstrum + 1), p);
+coeficientes = delta(cepstrum(segEnv(:, lz : lo), ceps + 1), p);
 patron = normaliza(coeficientes);
-handles.patron = patron;
-
-guidata(hObject, handles);
 
