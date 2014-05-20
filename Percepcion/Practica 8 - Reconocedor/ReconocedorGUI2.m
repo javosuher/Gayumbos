@@ -55,19 +55,6 @@ function ReconocedorGUI2_OpeningFcn(hObject, eventdata, handles, varargin)
 % Choose default command line output for ReconocedorGUI2
 handles.output = hObject;
 
-<<<<<<< HEAD
-puntos = 0;
-for i = 1 : 30
-    pause(3)
-    
-    grabacionj(handles);
-    
-end
-
-=======
->>>>>>> 17b280b74e81ffcbddb69b7ee594e72652c1d530
-
-
 % Update handles structure
 guidata(hObject, handles);
 
@@ -87,7 +74,12 @@ varargout{1} = handles.output;
 
 puntos = 0;
 for i = 1 : 30
-    patron = grabacionJ(handles);
+    sitio=randi(3);
+    cara=randi(3);
+    patron = grabacionJ();
+    s=comparacion(patron);
+    pause(2);
+    
     
 end
 
@@ -102,12 +94,8 @@ else
     s = 0;
 end
 
-<<<<<<< HEAD
-function grabacionj(handles)
-=======
-function patron = grabacionJ()
->>>>>>> 17b280b74e81ffcbddb69b7ee594e72652c1d530
 
+function patron = grabacionJ()
 load('parametrosJuego.mat');
 senal = grabacion(t * Fs, Fs, 1);
 ppatron = preenfasis(senal, a);
