@@ -60,6 +60,7 @@ handles.output = hObject;
 
 clc
 imagenJuego = imread('glidder.png');
+imagenJuego = imresize(imagenJuego, [120 120]);
 set(handles.botonJuego, 'CData', imagenJuego);
 
 % Valores por defecto
