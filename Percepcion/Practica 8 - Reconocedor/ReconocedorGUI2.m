@@ -131,8 +131,12 @@ for k = 1 : 30
             imagen=dibuja(imagen, explosion(valores(1),tam),80,1*(1024/4)-tam/2);
             imagen=dibuja(imagen, explosion(valores(2),tam),80,2*(1024/4)-tam/2);
             imagen=dibuja(imagen, explosion(valores(3),tam),80,3*(1024/4)-tam/2);
+            bomb=imread('bomb.png');
+            bomb=imresize(bomb,[tam tam]);
+            imagen=dibuja(imagen,bomb,100,(1024/2)-length(bomb)/2);
         else
             puntos=puntos+length(find(valores==100))*-50;
+            s=0;
         end
     end
     ind=find(valores==100);
