@@ -22,7 +22,7 @@ function varargout = ReconocedorGUI1(varargin)
 
 % Edit the above text to modify the response to help ReconocedorGUI1
 
-% Last Modified by GUIDE v2.5 19-May-2014 00:58:13
+% Last Modified by GUIDE v2.5 20-May-2014 01:50:24
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -59,9 +59,8 @@ handles.output = hObject;
 % uiwait(handles.figure1);
 
 clc
-axes(handles.axes2);
-[x,map] = imread('glidder.png','png');
-image(x), colormap(map), axis off, hold on
+imagenJuego = imread('glidder.png');
+set(handles.botonJuego, 'CData', imagenJuego);
 
 % Valores por defecto
 handles.t = 2;
@@ -69,6 +68,8 @@ handles.Fs = 8000;
 handles.n_muestras = 128;
 handles.a = 0.95;
 handles.despl = 64;
+handles.cepstrum = 10;
+handles.p = 4;
 %Ventanas
 handles.Hamming = 'hamming';
 handles.Hanning = 'hanning';
@@ -79,6 +80,36 @@ handles.Boxcar = 'boxcar';
 handles.Triang = 'triang';
 handles.Gausswin = 'gausswin';
 handles.ventana = handles.Hamming;
+
+% Fichero de patrones
+if exist('patrones.mat')
+    load('patrones.mat');
+    handles.senal1 = senal1;
+    handles.senal2 = senal2;
+    handles.senal3 = senal3;
+    handles.senal4 = senal4;
+    handles.patron1 = patron1;
+    handles.patron2 = patron2;
+    handles.patron3 = patron3;
+    handles.patron4 = patron4;
+    handles.patron1Recortado = patron1Recortado;
+    handles.patron2Recortado = patron2Recortado;
+    handles.patron3Recortado = patron3Recortado;
+    handles.patron4Recortado = patron4Recortado;
+else
+    handles.senal1 = 0;
+    handles.senal2 = 0;
+    handles.senal3 = 0;
+    handles.senal4 = 0;
+    handles.patron1 = 0;
+    handles.patron2 = 0;
+    handles.patron3 = 0;
+    handles.patron4 = 0;
+    handles.patron1Recortado = 0;
+    handles.patron2Recortado = 0;
+    handles.patron3Recortado = 0;
+    handles.patron4Recortado = 0;
+end
 
 guidata(hObject, handles); % Update handles structure
 
@@ -94,7 +125,7 @@ function varargout = ReconocedorGUI1_OutputFcn(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Get default command line output from handles structure
-varargout{1} = handles.output;
+varargout{1} = handles.output; 
 
 
 
@@ -312,3 +343,237 @@ function botonJuego_Callback(hObject, eventdata, handles)
 ReconocedorGUI2
 %uiwait % Espera
 %close ReconocedorGUI1 %cierra
+
+
+
+function cepstrum_Callback(hObject, eventdata, handles)
+% hObject    handle to cepstrum (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of cepstrum as text
+%        str2double(get(hObject,'String')) returns contents of cepstrum as a double
+
+NewStrVal = get(hObject,'String');
+NewVal = str2double(NewStrVal);
+handles.cepstrum = NewVal;
+guidata(hObject,handles);
+
+
+% --- Executes during object creation, after setting all properties.
+function cepstrum_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to cepstrum (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function p_Callback(hObject, eventdata, handles)
+% hObject    handle to p (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of p as text
+%        str2double(get(hObject,'String')) returns contents of p as a double
+
+NewStrVal = get(hObject,'String');
+NewVal = str2double(NewStrVal);
+handles.p = NewVal;
+guidata(hObject,handles);
+
+
+% --- Executes during object creation, after setting all properties.
+function p_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to p (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on button press in BotonGrabarPatron1.
+function BotonGrabarPatron1_Callback(hObject, eventdata, handles)
+% hObject    handle to BotonGrabarPatron1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+senal1 = grabacion(handles.t * handles.Fs, handles.Fs, 1);
+handles.senal1 = senal1;
+axes(handles.axes1);
+plot(senal1)
+ppatron1 = preenfasis(senal1, handles.a);
+segmentos = segmentacion(ppatron1, handles.n_muestras, handles.despl);
+segEnv = enventanado(segmentos, handles.ventana);
+[lz, lo] = inicio_fin(segEnv);
+inic = lz * handles.despl;
+fin = lo * handles.despl;
+patron1Recortado = senal1(inic : fin);
+handles.patron1Recortado = patron1Recortado;
+axes(handles.axes3);
+plot(handles.patron1Recortado)
+coeficientes = delta(cepstrum(segEnv(:, lz : lo), handles.cepstrum + 1), handles.p);
+patron1 = normaliza(coeficientes);
+handles.patron1 = patron1;
+persistenciaPatrones(handles);
+
+guidata(hObject, handles);
+
+
+% --- Executes on button press in BotonReproducirPatron2.
+function BotonReproducirPatron1_Callback(hObject, eventdata, handles)
+% hObject    handle to BotonReproducirPatron2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+axes(handles.axes1);
+plot(handles.senal1)
+axes(handles.axes3);
+plot(handles.patron1Recortado)
+reproducir(handles.patron1Recortado);
+
+% --- Executes on button press in BotonGrabarPatron2.
+function BotonGrabarPatron2_Callback(hObject, eventdata, handles)
+% hObject    handle to BotonGrabarPatron2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+senal2 = grabacion(handles.t * handles.Fs, handles.Fs, 1);
+handles.senal2 = senal2;
+axes(handles.axes1);
+plot(senal2)
+ppatron2 = preenfasis(senal2, handles.a);
+segmentos = segmentacion(ppatron2, handles.n_muestras, handles.despl);
+segEnv = enventanado(segmentos, handles.ventana);
+[lz, lo] = inicio_fin(segEnv);
+inic = lz * handles.despl;
+fin = lo * handles.despl;
+patron2Recortado = senal2(inic : fin);
+handles.patron2Recortado = patron2Recortado;
+axes(handles.axes3);
+plot(handles.patron2Recortado)
+coeficientes = delta(cepstrum(segEnv(:, lz : lo), handles.cepstrum + 1), handles.p);
+patron2 = normaliza(coeficientes);
+handles.patron2 = patron2;
+persistenciaPatrones(handles);
+
+guidata(hObject, handles);
+
+
+% --- Executes on button press in botonreproducirpatron2.
+function BotonReproducirPatron2_Callback(hObject, eventdata, handles)
+% hObject    handle to botonreproducirpatron2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+axes(handles.axes1);
+plot(handles.senal2)
+axes(handles.axes3);
+plot(handles.patron2Recortado)
+reproducir(handles.patron2Recortado);
+
+
+% --- Executes on button press in BotonGrabarPatron3.
+function BotonGrabarPatron3_Callback(hObject, eventdata, handles)
+% hObject    handle to BotonGrabarPatron3 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+senal3 = grabacion(handles.t * handles.Fs, handles.Fs, 1);
+handles.senal3 = senal3;
+axes(handles.axes1);
+plot(senal3)
+ppatron3 = preenfasis(senal3, handles.a);
+segmentos = segmentacion(ppatron3, handles.n_muestras, handles.despl);
+segEnv = enventanado(segmentos, handles.ventana);
+[lz, lo] = inicio_fin(segEnv);
+inic = lz * handles.despl;
+fin = lo * handles.despl;
+patron3Recortado = senal3(inic : fin);
+handles.patron3Recortado = patron3Recortado;
+axes(handles.axes3);
+plot(handles.patron3Recortado)
+coeficientes = delta(cepstrum(segEnv(:, lz : lo), handles.cepstrum + 1), handles.p);
+patron3 = normaliza(coeficientes);
+handles.patron3 = patron3;
+persistenciaPatrones(handles);
+
+guidata(hObject, handles);
+
+
+% --- Executes on button press in BotonReproducirPatron3.
+function BotonReproducirPatron3_Callback(hObject, eventdata, handles)
+% hObject    handle to BotonReproducirPatron3 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+axes(handles.axes1);
+plot(handles.senal3)
+axes(handles.axes3);
+plot(handles.patron3Recortado)
+reproducir(handles.patron3Recortado);
+
+
+% --- Executes on button press in BotonGrabarPatron4.
+function BotonGrabarPatron4_Callback(hObject, eventdata, handles)
+% hObject    handle to BotonGrabarPatron4 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+senal4 = grabacion(handles.t * handles.Fs, handles.Fs, 1);
+handles.senal4 = senal4;
+axes(handles.axes1);
+plot(senal4)
+ppatron4 = preenfasis(senal4, handles.a);
+segmentos = segmentacion(ppatron4, handles.n_muestras, handles.despl);
+segEnv = enventanado(segmentos, handles.ventana);
+[lz, lo] = inicio_fin(segEnv);
+inic = lz * handles.despl;
+fin = lo * handles.despl;
+patron4Recortado = senal4(inic : fin);
+handles.patron4Recortado = patron4Recortado;
+axes(handles.axes3);
+plot(handles.patron4Recortado)
+coeficientes = delta(cepstrum(segEnv(:, lz : lo), handles.cepstrum + 1), handles.p);
+patron4 = normaliza(coeficientes);
+handles.patron4 = patron4;
+persistenciaPatrones(handles);
+
+guidata(hObject, handles);
+
+
+% --- Executes on button press in BotonReproducirPatron4.
+function BotonReproducirPatron4_Callback(hObject, eventdata, handles)
+% hObject    handle to BotonReproducirPatron4 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+axes(handles.axes1);
+plot(handles.senal4)
+axes(handles.axes3);
+plot(handles.patron4Recortado)
+reproducir(handles.patron4Recortado);
+
+function persistenciaPatrones(handles)
+    senal1 = handles.senal1;
+    senal2 = handles.senal2;
+    senal3 = handles.senal3;
+    senal4 = handles.senal4;
+    patron1 = handles.patron1;
+    patron2 = handles.patron2;
+    patron3 = handles.patron3;
+    patron4 = handles.patron4;
+    patron1Recortado = handles.patron1Recortado;
+    patron2Recortado = handles.patron2Recortado;
+    patron3Recortado = handles.patron3Recortado;
+    patron4Recortado = handles.patron4Recortado;
+    save('patrones.mat', 'senal1', 'senal2', 'senal3', 'senal4', 'patron1', 'patron2', 'patron3', 'patron4', 'patron1Recortado', 'patron2Recortado', 'patron3Recortado', 'patron4Recortado');
