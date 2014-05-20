@@ -57,6 +57,7 @@ handles.output = hObject;
 
 puntos = 0;
 for i = 1 : 30
+    grabacion(handles);
     
 end
 

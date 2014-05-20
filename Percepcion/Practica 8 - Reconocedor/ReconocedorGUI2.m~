@@ -56,9 +56,8 @@ function ReconocedorGUI2_OpeningFcn(hObject, eventdata, handles, varargin)
 handles.output = hObject;
 
 puntos = 0;
-while i = 1 : 30
-    
-    
+for i = 1 : 30
+    grabacion(handles);
 end
 
 
@@ -83,7 +82,13 @@ varargout{1} = handles.output;
 function s = comparacion(handles)
 
 load('patrones.mat');
-[DTW(handles.patron, patro
+comparacion = [DTW(handles.patron, patron1) DTW(handles.patron, patron2) DTW(handles.patron, patron3) DTW(handles.patron, patron4)];
+[valor, indice] = min(comparacion);
+if valor < 300
+    s = indice;
+else
+    s = 0;
+end
 
 function grabacion(handles)
 
