@@ -369,7 +369,7 @@ save('parametrosJuego.mat', 't', 'n_muestras', 'a', 'despl', 'ceps', 'p', 'venta
 
 ReconocedorGUI2
 %uiwait % Espera
-%close ReconocedorGUI1 %cierra
+close ReconocedorGUI1 %cierra
 
 
 
