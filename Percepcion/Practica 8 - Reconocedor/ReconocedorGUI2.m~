@@ -118,6 +118,9 @@ for k = 1 : 30
     if s==1 || s==2 || s==3
         puntos=puntos+valores(s);
         imagen=dibuja(imagen, explosion(valores(s),tam),80,s*(1024/4)-tam/2);
+        if valores(s)==150
+            imagen=dibuja(imagen, caras(4,300), 300,(1024/2)-300/2);
+        end
         if(valores(s)==50)
             todos=todos+1;
         end
@@ -138,39 +141,26 @@ for k = 1 : 30
     ind=find(valores==100);
     if s~=4 && length(find(ind~=s))~=0
         django=imread('django.png');
-        %django=imresize(django,[tam tam]);
-        imagen=dibuja(imagen,django,100,(1024/2)-length(django)/2);
-    end
-    ind=find(valores==-150);
-    if length(find(ind==s))~=0 || (length(ind)~=0 && s==4)
-        imagen=dibuja(imagen, caras(4,tam), 300,(1024/2)-tam/2);
-    end
-    if s==0
-        imagen=dibuja(imagen, caras(5,tam), 300,(1024/2)-tam/2);
+        imagen=dibuja(imagen,, 20,(1024/2)-length(django)/2);
     end
     set(handles.text1,'String',puntos);
+    set(handles.text2,'String',s);
     set(handles.text3,'String',todos);
     background = axes('unit', 'normalized', 'position', [0 0 1 1]);
     imagesc(imagen);
     set(background, 'handlevisibility', 'off', 'visible', 'off');
+    valores
+    s
+    puntos
     pause(2);
     
 end
-    glidder=imread('glidder.png');
-    django=imread('django.png');
-    imagen=dibuja(fondo,django,100,(1024/2)-length(django)/2);
-    imagen=dibuja(imagen, glidder, 300,(1024/2)-tam/2);
-    background = axes('unit', 'normalized', 'position', [0 0 1 1]);
-    imagesc(imagen);
-    set(background, 'handlevisibility', 'off', 'visible', 'off');
-    set(handles.text1,'String',puntos);
-    set(handles.text3,'String',todos)
 
 
 function imagen=dibuja(fondo, cara, alto, inicio);
 imagen=fondo;
-for i=1:size(cara,1)
-        for j=1:size(cara,2)
+for i=1:length(cara)
+        for j=1:length(cara)
             if size(find(cara(i,j,:)==0))<3
                 imagen(alto+i,inicio+j,:)=cara(i,j,:);
             end
@@ -223,10 +213,8 @@ elseif(indice==2)
 cara=imread('jabi.png');
 elseif(indice==3)
 cara=imread('pidgeon.png');
-elseif(indice==4)
-cara=imread('sadglidder.png');
 else
-cara=imread('saywhat.png');
+cara=imread('glidder.png');
 end
 cara = imresize(cara, [tam tam]);
 function explo=explosion(valor,tam)

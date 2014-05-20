@@ -366,10 +366,11 @@ p = handles.p;
 ventana = handles.ventana;
 Fs = handles.Fs;
 save('parametrosJuego.mat', 't', 'n_muestras', 'a', 'despl', 'ceps', 'p', 'ventana', 'Fs');
-
+close(handles.figure1);
 ReconocedorGUI2
 %uiwait % Espera
-close ReconocedorGUI1 %cierra
+%close ReconocedorGUI1 %cierra
+
 
 
 
