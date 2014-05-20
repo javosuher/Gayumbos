@@ -22,7 +22,7 @@ function varargout = ReconocedorGUI1(varargin)
 
 % Edit the above text to modify the response to help ReconocedorGUI1
 
-% Last Modified by GUIDE v2.5 20-May-2014 01:50:24
+% Last Modified by GUIDE v2.5 20-May-2014 14:25:15
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -59,10 +59,19 @@ handles.output = hObject;
 % uiwait(handles.figure1);
 
 clc
+whitebg('k')
 imagenJuego = imread('glidder.png');
 imagenJuego = imresize(imagenJuego, [120 120]);
 set(handles.botonJuego, 'CData', imagenJuego);
 
+background = axes('unit', 'normalized', 'position', [0 0 1 1]);
+imagen = imread('backback.png');
+imagesc(imagen);
+set(background, 'handlevisibility', 'off', 'visible', 'off');
+imagenTitle = imread('django.png');
+%imagenTitle = imresize(imagenTitle, [151 351]);
+axes(handles.axes6);
+imshow(imagenTitle);
 % Valores por defecto
 handles.t = 2;
 handles.Fs = 8000;
@@ -323,7 +332,7 @@ senal = grabacion(t * Fs, Fs, 1);
 handles.senal = senal;
 guidata(hObject, handles);
 axes(handles.axes1);
-plot(senal)
+plot(senal,'m')
 
 
 % --- Executes on button press in botonReproducir.
@@ -411,7 +420,7 @@ function BotonGrabarPatron1_Callback(hObject, eventdata, handles)
 senal1 = grabacion(handles.t * handles.Fs, handles.Fs, 1);
 handles.senal1 = senal1;
 axes(handles.axes1);
-plot(senal1)
+plot(senal1,'m')
 ppatron1 = preenfasis(senal1, handles.a);
 segmentos = segmentacion(ppatron1, handles.n_muestras, handles.despl);
 segEnv = enventanado(segmentos, handles.ventana);
@@ -421,7 +430,7 @@ fin = lo * handles.despl;
 patron1Recortado = senal1(inic : fin);
 handles.patron1Recortado = patron1Recortado;
 axes(handles.axes3);
-plot(handles.patron1Recortado)
+plot(handles.patron1Recortado,'m')
 coeficientes = delta(cepstrum(segEnv(:, lz : lo), handles.cepstrum + 1), handles.p);
 patron1 = normaliza(coeficientes);
 handles.patron1 = patron1;
@@ -435,11 +444,10 @@ function BotonReproducirPatron1_Callback(hObject, eventdata, handles)
 % hObject    handle to BotonReproducirPatron2 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
 axes(handles.axes1);
-plot(handles.senal1)
+plot(handles.senal1,'m')
 axes(handles.axes3);
-plot(handles.patron1Recortado)
+plot(handles.patron1Recortado,'m')
 reproducir(handles.patron1Recortado);
 
 % --- Executes on button press in BotonGrabarPatron2.
@@ -451,7 +459,7 @@ function BotonGrabarPatron2_Callback(hObject, eventdata, handles)
 senal2 = grabacion(handles.t * handles.Fs, handles.Fs, 1);
 handles.senal2 = senal2;
 axes(handles.axes1);
-plot(senal2)
+plot(senal2,'m')
 ppatron2 = preenfasis(senal2, handles.a);
 segmentos = segmentacion(ppatron2, handles.n_muestras, handles.despl);
 segEnv = enventanado(segmentos, handles.ventana);
@@ -461,7 +469,7 @@ fin = lo * handles.despl;
 patron2Recortado = senal2(inic : fin);
 handles.patron2Recortado = patron2Recortado;
 axes(handles.axes3);
-plot(handles.patron2Recortado)
+plot(handles.patron2Recortado,'m')
 coeficientes = delta(cepstrum(segEnv(:, lz : lo), handles.cepstrum + 1), handles.p);
 patron2 = normaliza(coeficientes);
 handles.patron2 = patron2;
@@ -477,9 +485,9 @@ function BotonReproducirPatron2_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 axes(handles.axes1);
-plot(handles.senal2)
+plot(handles.senal2,'m')
 axes(handles.axes3);
-plot(handles.patron2Recortado)
+plot(handles.patron2Recortado,'m')
 reproducir(handles.patron2Recortado);
 
 
@@ -492,7 +500,7 @@ function BotonGrabarPatron3_Callback(hObject, eventdata, handles)
 senal3 = grabacion(handles.t * handles.Fs, handles.Fs, 1);
 handles.senal3 = senal3;
 axes(handles.axes1);
-plot(senal3)
+plot(senal3,'m')
 ppatron3 = preenfasis(senal3, handles.a);
 segmentos = segmentacion(ppatron3, handles.n_muestras, handles.despl);
 segEnv = enventanado(segmentos, handles.ventana);
@@ -502,7 +510,7 @@ fin = lo * handles.despl;
 patron3Recortado = senal3(inic : fin);
 handles.patron3Recortado = patron3Recortado;
 axes(handles.axes3);
-plot(handles.patron3Recortado)
+plot(handles.patron3Recortado,'m')
 coeficientes = delta(cepstrum(segEnv(:, lz : lo), handles.cepstrum + 1), handles.p);
 patron3 = normaliza(coeficientes);
 handles.patron3 = patron3;
@@ -518,9 +526,9 @@ function BotonReproducirPatron3_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 axes(handles.axes1);
-plot(handles.senal3)
+plot(handles.senal3,'m')
 axes(handles.axes3);
-plot(handles.patron3Recortado)
+plot(handles.patron3Recortado,'m')
 reproducir(handles.patron3Recortado);
 
 
@@ -533,7 +541,7 @@ function BotonGrabarPatron4_Callback(hObject, eventdata, handles)
 senal4 = grabacion(handles.t * handles.Fs, handles.Fs, 1);
 handles.senal4 = senal4;
 axes(handles.axes1);
-plot(senal4)
+plot(senal4,'m')
 ppatron4 = preenfasis(senal4, handles.a);
 segmentos = segmentacion(ppatron4, handles.n_muestras, handles.despl);
 segEnv = enventanado(segmentos, handles.ventana);
@@ -543,7 +551,7 @@ fin = lo * handles.despl;
 patron4Recortado = senal4(inic : fin);
 handles.patron4Recortado = patron4Recortado;
 axes(handles.axes3);
-plot(handles.patron4Recortado)
+plot(handles.patron4Recortado,'m')
 coeficientes = delta(cepstrum(segEnv(:, lz : lo), handles.cepstrum + 1), handles.p);
 patron4 = normaliza(coeficientes);
 handles.patron4 = patron4;
@@ -559,9 +567,9 @@ function BotonReproducirPatron4_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 axes(handles.axes1);
-plot(handles.senal4)
+plot(handles.senal4,'m')
 axes(handles.axes3);
-plot(handles.patron4Recortado)
+plot(handles.patron4Recortado,'m')
 reproducir(handles.patron4Recortado);
 
 function persistenciaPatrones(handles)
@@ -578,3 +586,13 @@ function persistenciaPatrones(handles)
     patron3Recortado = handles.patron3Recortado;
     patron4Recortado = handles.patron4Recortado;
     save('patrones.mat', 'senal1', 'senal2', 'senal3', 'senal4', 'patron1', 'patron2', 'patron3', 'patron4', 'patron1Recortado', 'patron2Recortado', 'patron3Recortado', 'patron4Recortado');
+
+
+% --- Executes during object creation, after setting all properties.
+function axes4_CreateFcn(hObject, eventdata, handles)
+
+% hObject    handle to axes4 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: place code in OpeningFcn to populate axes4
