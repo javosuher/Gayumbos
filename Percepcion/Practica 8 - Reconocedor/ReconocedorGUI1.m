@@ -76,6 +76,7 @@ uistack(handles.uipanel1, 'top')
 uistack(handles.uipanel2, 'top')
 uistack(handles.axes1, 'top')
 uistack(handles.axes3, 'top')
+uistack(handles.text16, 'top')
 
 % Valores por defecto
 handles.t = 2;

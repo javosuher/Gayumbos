@@ -57,7 +57,9 @@ handles.output = hObject;
 
 puntos = 0;
 for i = 1 : 30
-    grabacion(handles);
+    pause(3)
+    
+    grabacionj(handles);
     
 end
 
@@ -91,7 +93,7 @@ else
     s = 0;
 end
 
-function grabacion(handles)
+function grabacionj(handles)
 
 load('parametrosJuego.mat');
 senal = grabacion(t * Fs, Fs, 1);
