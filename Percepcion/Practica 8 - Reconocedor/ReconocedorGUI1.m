@@ -73,11 +73,12 @@ imagenTitle = imread('django.png');
 axes(handles.axes6);
 imshow(imagenTitle);
 uistack(handles.uipanel1, 'top')
+uistack(handles.uipanel2, 'top')
 uistack(handles.axes1, 'top')
 uistack(handles.axes3, 'top')
+
 % Valores por defecto
 handles.t = 2;
-handles.Fs = 8000;
 handles.n_muestras = 128;
 handles.a = 0.95;
 handles.despl = 64;
@@ -109,6 +110,7 @@ if exist('patrones.mat')
     handles.patron2Recortado = patron2Recortado;
     handles.patron3Recortado = patron3Recortado;
     handles.patron4Recortado = patron4Recortado;
+    handles.Fs = Fs;
 else
     handles.senal1 = 0;
     handles.senal2 = 0;
@@ -122,6 +124,7 @@ else
     handles.patron2Recortado = 0;
     handles.patron3Recortado = 0;
     handles.patron4Recortado = 0;
+    handles.Fs = 8000;
 end
 
 guidata(hObject, handles); % Update handles structure
@@ -588,7 +591,8 @@ function persistenciaPatrones(handles)
     patron2Recortado = handles.patron2Recortado;
     patron3Recortado = handles.patron3Recortado;
     patron4Recortado = handles.patron4Recortado;
-    save('patrones.mat', 'senal1', 'senal2', 'senal3', 'senal4', 'patron1', 'patron2', 'patron3', 'patron4', 'patron1Recortado', 'patron2Recortado', 'patron3Recortado', 'patron4Recortado');
+    Fs = handles.Fs;
+    save('patrones.mat', 'senal1', 'senal2', 'senal3', 'senal4', 'patron1', 'patron2', 'patron3', 'patron4', 'patron1Recortado', 'patron2Recortado', 'patron3Recortado', 'patron4Recortado', 'Fs');
 
 
 % --- Executes during object creation, after setting all properties.
