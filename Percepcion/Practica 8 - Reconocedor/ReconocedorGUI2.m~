@@ -55,10 +55,6 @@ function ReconocedorGUI2_OpeningFcn(hObject, eventdata, handles, varargin)
 % Choose default command line output for ReconocedorGUI2
 handles.output = hObject;
 
-puntos = 0;
-
-
-
 % Update handles structure
 guidata(hObject, handles);
 
@@ -76,10 +72,33 @@ function varargout = ReconocedorGUI2_OutputFcn(hObject, eventdata, handles)
 % Get default command line output from handles structure
 varargout{1} = handles.output;
 
-function s = comparacion(handles)
+puntos = 0;
+%fondo=imread('pipes.png');
+%imshow('pipes.png');
+background = axes('unit', 'normalized', 'position', [0 0 1 1]);
+fondo = imread('pipes.png');
+imagesc(fondo);
+set(background, 'handlevisibility', 'off', 'visible', 'off');
+for i = 1 : 30
+    sitio=randi(3);
+    cara=caras(randi(3));
+    imagen = fondo;
+    size(imagen(200:400-1,sitio*256:sitio*256+200-1,:))
+    imagen(200:400-,sitio*256:sitio*256+200-1,:)=cara(1:200,1:200,:)
+    imagesc(imagen);
+    set(background, 'handlevisibility', 'off', 'visible', 'off');
+    patron = grabacionJ();
+    s=comparacion(patron);
+    pause(2);
+    
+    
+    
+end
+
+function s = comparacion(patron)
 
 load('patrones.mat');
-comparacion = [DTW(handles.patron, patron1) DTW(handles.patron, patron2) DTW(handles.patron, patron3) DTW(handles.patron, patron4)];
+comparacion = [DTW(patron, patron1) DTW(patron, patron2) DTW(patron, patron3) DTW(patron, patron4)];
 [valor, indice] = min(comparacion);
 if valor < 300
     s = indice;
@@ -87,8 +106,8 @@ else
     s = 0;
 end
 
-function grabacionJ(hObject, handles)
 
+function patron = grabacionJ()
 load('parametrosJuego.mat');
 senal = grabacion(t * Fs, Fs, 1);
 ppatron = preenfasis(senal, a);
@@ -97,7 +116,18 @@ segEnv = enventanado(segmentos, ventana);
 [lz, lo] = inicio_fin(segEnv);
 coeficientes = delta(cepstrum(segEnv(:, lz : lo), ceps + 1), p);
 patron = normaliza(coeficientes);
-handles.patron = patron;
 
-guidata(hObject, handles);
-
+function cara=caras(indice)
+if(indice==1)
+cara=imread('montagon.png');
+cara = imresize(cara, [200 200]);
+elseif(indice==2)
+cara=imread('jabi.png');
+cara = imresize(cara, [200 200]);
+elseif(indice==3)
+cara=imread('pidgeon.png');
+cara = imresize(cara, [200 200]);
+else
+cara=imread('glidder.png');
+cara = imresize(cara, [200 200]);
+end

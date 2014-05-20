@@ -73,12 +73,24 @@ function varargout = ReconocedorGUI2_OutputFcn(hObject, eventdata, handles)
 varargout{1} = handles.output;
 
 puntos = 0;
+%fondo=imread('pipes.png');
+%imshow('pipes.png');
+background = axes('unit', 'normalized', 'position', [0 0 1 1]);
+fondo = imread('pipes.png');
+imagesc(fondo);
+set(background, 'handlevisibility', 'off', 'visible', 'off');
 for i = 1 : 30
     sitio=randi(3);
-    cara=randi(3);
+    cara=caras(randi(3));
+    imagen = fondo;
+    size(imagen(200:400-1,sitio*256:sitio*256+200-1,:))
+    imagen(200:400-1,sitio*256:sitio*256+200-1,:)=cara(1:200,1:200,:);
+    imagesc(imagen);
+    set(background, 'handlevisibility', 'off', 'visible', 'off');
     patron = grabacionJ();
     s=comparacion(patron);
     pause(2);
+    
     
     
 end
@@ -105,3 +117,17 @@ segEnv = enventanado(segmentos, ventana);
 coeficientes = delta(cepstrum(segEnv(:, lz : lo), ceps + 1), p);
 patron = normaliza(coeficientes);
 
+function cara=caras(indice)
+if(indice==1)
+cara=imread('montagon.png');
+cara = imresize(cara, [200 200]);
+elseif(indice==2)
+cara=imread('jabi.png');
+cara = imresize(cara, [200 200]);
+elseif(indice==3)
+cara=imread('pidgeon.png');
+cara = imresize(cara, [200 200]);
+else
+cara=imread('glidder.png');
+cara = imresize(cara, [200 200]);
+end
