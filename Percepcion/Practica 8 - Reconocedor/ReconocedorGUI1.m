@@ -361,11 +361,11 @@ t = handles.t;
 n_muestras = handles.n_muestras;
 a = handles.a;
 despl = handles.despl;
-cepstrum = handles.cepstrum;
+ceps = handles.cepstrum;
 p = handles.p;
 ventana = handles.ventana;
 Fs = handles.Fs;
-save('parametrosJuego.mat', 't', 'n_muestras', 'a', 'despl', 'cepstrum', 'p', 'ventana', 'Fs');
+save('parametrosJuego.mat', 't', 'n_muestras', 'a', 'despl', 'ceps', 'p', 'ventana', 'Fs');
 
 ReconocedorGUI2
 %uiwait % Espera
