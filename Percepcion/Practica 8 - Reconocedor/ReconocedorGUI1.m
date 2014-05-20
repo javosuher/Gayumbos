@@ -356,6 +356,16 @@ function botonJuego_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
+t = handles.t;
+n_muestras = handles.n_muestras;
+a = handles.a;
+despl = handles.despl;
+cepstrum = handles.cepstrum;
+p = handles.p;
+ventana = handles.ventana;
+Fs = handles.Fs;
+save('parametrosJuego.mat', 't', 'n_muestras', 'a', 'despl', 'cepstrum', 'p', 'ventana', 'Fs');
+
 ReconocedorGUI2
 %uiwait % Espera
 %close ReconocedorGUI1 %cierra
