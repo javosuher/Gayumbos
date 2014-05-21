@@ -75,9 +75,8 @@ varargout{1} = handles.output;
 puntos = 0;
 %fondo=imread('pipes.png');
 %imshow('pipes.png');
-load('imagenes.mat');
 background = axes('unit', 'normalized', 'position', [0 0 1 1]);
-%fondo = imread('pipes.png');
+fondo = imread('pipes.png');
 imagesc(fondo);
 set(background, 'handlevisibility', 'off', 'visible', 'off');
 tam=300;
@@ -132,7 +131,7 @@ for k = 1 : 30
             imagen=dibuja(imagen, explosion(valores(1),tam),80,1*(1024/4)-tam/2);
             imagen=dibuja(imagen, explosion(valores(2),tam),80,2*(1024/4)-tam/2);
             imagen=dibuja(imagen, explosion(valores(3),tam),80,3*(1024/4)-tam/2);
-            %bomb=imread('bomb.png');
+            bomb=imread('bomb.png');
             bomb=imresize(bomb,[tam tam]);
             imagen=dibuja(imagen,bomb,100,(1024/2)-length(bomb)/2);
         else
@@ -142,7 +141,7 @@ for k = 1 : 30
     end
     ind=find(valores==100);
     if s~=4 && length(find(ind~=s))~=0
-        %django=imread('django.png');
+        django=imread('django.png');
         %django=imresize(django,[tam tam]);
         imagen=dibuja(imagen,django,100,(1024/2)-length(django)/2);
     end
@@ -161,8 +160,8 @@ for k = 1 : 30
     pause(2);
     
 end
-    %glidder=imread('glidder.png');
-    %django=imread('django.png');
+    glidder=imread('glidder.png');
+    django=imread('django.png');
     imagen=dibuja(fondo,django,100,(1024/2)-length(django)/2);
     imagen=dibuja(imagen, glidder, 300,(1024/2)-tam/2);
     background = axes('unit', 'normalized', 'position', [0 0 1 1]);
@@ -223,25 +222,25 @@ end
 
 function cara=caras(indice, tam)
 if(indice==1)
-cara=montagon;
+cara=imread('montagon.png');
 elseif(indice==2)
-cara=jabi;
+cara=imread('jabi.png');
 elseif(indice==3)
-cara=paloma;
+cara=imread('pidgeon.png');
 elseif(indice==4)
-cara=sad;
+cara=imread('sadglidder.png');
 else
-cara=swhat;
+cara=imread('saywhat.png');
 end
 cara = imresize(cara, [tam tam]);
 function explo=explosion(valor,tam)
 if(valor==-150)
-    explo=cientocincuenta;
+    explo=imread('150.png');
 elseif(valor==50)
-    explo=cincuenta;
+    explo=imread('050.png');
 elseif(valor==100)
-    explo=cien;
+    explo=imread('100.png');
 else
-    explo=explosion;
+    explo=imread('explosion.png');
 end
 explo=imresize(explo, [tam tam]);

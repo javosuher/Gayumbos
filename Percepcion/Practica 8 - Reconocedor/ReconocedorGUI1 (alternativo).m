@@ -60,16 +60,15 @@ handles.output = hObject;
 
 clc
 whitebg('k')
-load('imagenes.mat');
-imagenJuego = glidder;
+imagenJuego = imread('glidder.png');
 imagenJuego = imresize(imagenJuego, [120 120]);
 set(handles.botonJuego, 'CData', imagenJuego);
 
 background = axes('unit', 'normalized', 'position', [0 0 1 1]);
-imagen = backback;
+imagen = imread('backback.png');
 imagesc(imagen);
 set(background, 'handlevisibility', 'off', 'visible', 'off');
-imagenTitle = django;
+imagenTitle = imread('django.png');
 %imagenTitle = imresize(imagenTitle, [151 351]);
 axes(handles.axes6);
 imshow(imagenTitle);
