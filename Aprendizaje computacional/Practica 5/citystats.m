@@ -1,13 +1,14 @@
 clear all;
 load cities.mat
 ratings=ratings';
-positions = hextop(6,6);
 
 %Cojemos salud y economia
 ratings=ratings([3,9],:);
 %size(ratings)
-
-w=gridtop(6,6);
+plo=0;
+for ta=[2,3,4,6]
+    plo=plo+1;
+w=gridtop(ta,1);
 vecindad=linkdist(w);
 W=som(ratings,w,vecindad,50,0.2);
 
@@ -16,10 +17,12 @@ for i=1:length(ratings);
     [~,clase(i)]=min(dist(W', ratings(:,i)));
 end
 
-close all;
+%close all;
 %colores=['ob'; 'or'; 'om'; 'og'; 'oy'];
 %j=0;
-figure, plotsom(W',vecindad);hold on;
+hold off;
+subplot(2,2,plo)
+plotsom(W',vecindad);hold on;
         plotpat(ratings,clase,'.')
 for i=1:length(clase)
 	%j=j+1;
@@ -32,6 +35,7 @@ for i=1:length(clase)
         i
         names(find(clase==i),:)
     end
+end
 end
 
 %plotpat(puntos,clase,'.');
