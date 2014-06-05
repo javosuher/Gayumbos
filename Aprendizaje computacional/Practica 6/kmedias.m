@@ -1,25 +1,21 @@
-function centroides=kmeans(x,n,c0);
-
-if nargin==2,
-   [~ numpat]=size(x);
-   [~ indices]=sort(rand(1,numpat));
-   indices=indices(1:n);
-   centroides=x(:,indices);
-else,
-   centroides=c0;
-end;
-
-suma=1;
-sumaant = 0;
-contador=1;
-while (sumaant ~= suma) & (contador<100),
-   sumaant = suma;
-   [ganadores,distancias]=mycenter(x,centroides);
-   
-   suma = sum(distancias);
-   for i=1:n,
-      centroides(:,i)=meanpat(myclass(x,ganadores,i));
-   end;
-   contador=contador+1
-   pause(0.1);
-end;
+function [centros, clases] = kmedias(datos, k)
+    % Calculamos los centros
+    aleat = randperm(size(datos, 1));
+    centros = datos(aleat(1 : k), :);
+    
+    % Inicializamos las matrices de distancias
+    distancias = zeros(length(centros), length(datos));
+    distanciasA = ones(length(centros), length(datos));
+    
+    % Iteramos hasta que la distancia anterior no sea igual a la actual
+    while sum(sum(distancias)) ~= sum(sum(distanciasA))
+        distanciasA = distancias;
+        distancias = pdist2(centros, datos, 'euclidean'); % Calculo de matriz de distancias
+        [~, clases] = min(distancias); % Sacamos el centro mas cernano a todos los datos
+        for i = 1 : k
+            % Recalculamos la posición de los centros con la media
+            centros(i, :) = mean(datos(find(clases == i), :));
+        end
+    end
+    centros = centros';
+end
