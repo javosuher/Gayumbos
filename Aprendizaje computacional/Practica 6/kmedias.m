@@ -17,5 +17,4 @@ function [centros, clases] = kmedias(datos, k)
             centros(i, :) = mean(datos(find(clases == i), :));
         end
     end
-    centros = centros';
 end
