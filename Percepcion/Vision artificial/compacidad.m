@@ -7,7 +7,6 @@ function com = compacidad(image)
     imF = imBW;
     imBW(find(imF == 0)) = 1;
     imBW(find(imF == 1)) = 0;
-    figure, imshow(imBW)
     stats = regionprops(imBW, 'Area', 'Perimeter');
     area = [stats.Area];
     perimetro = [stats.Perimeter];

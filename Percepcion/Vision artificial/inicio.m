@@ -22,7 +22,7 @@ function varargout = inicio(varargin)
 
 % Edit the above text to modify the response to help inicio
 
-% Last Modified by GUIDE v2.5 28-Jun-2014 12:23:32
+% Last Modified by GUIDE v2.5 29-Jun-2014 22:46:23
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -94,7 +94,9 @@ if(exist('imagenes', 'dir') ~= 0)
     end
     set(handles.listboxImages, 'string', {files.name});
     index = get(handles.listboxImages, 'value');
-    imshow(handles.images{index});   
+    if length(files) > 0
+        imshow(handles.images{index});
+    end
 end
 
 % Cargamos Caras
@@ -105,7 +107,9 @@ for x = 1 : length(files)
 end
 set(handles.listboxPhotos, 'string', {files.name});
 index = get(handles.listboxPhotos, 'value');
-imshow(handles.imagesPhotos{index}); 
+if length(files) > 0
+    imshow(handles.imagesPhotos{index}); 
+end
 
 % Inicialización de parámetros
 handles.editBrillo = 0;
@@ -200,6 +204,14 @@ function pushPatterns_Callback(hObject, eventdata, handles)
 % hObject    handle to pushPatterns (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+patron = zeros(2, length(handles.images));
+for i = 1 : length(handles.images)
+    patron(1, i) = color(handles.images{i});
+    patron(2, i) = compacidad(handles.images{i});
+end
+save('patrones.mat', 'patron');
+
 
 % --- Executes on selection change in listboxImages.
 function listboxImages_Callback(hObject, eventdata, handles)
@@ -497,3 +509,28 @@ function pushSaveDays_Callback(hObject, eventdata, handles)
 
 dias = handles.days;
 save('dias.mat', 'dias');
+
+
+% --- Executes on button press in pushGenerateImages.
+function pushGenerateImages_Callback(hObject, eventdata, handles)
+% hObject    handle to pushGenerateImages (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+files = dir(fullfile(pwd, 'caras', '*.png'));
+for x = 1 : length(files)
+    cara{x} = imread(fullfile(pwd,'caras',files(x).name));
+end
+files = dir(fullfile(pwd, 'posters', '*.png'));
+for x = 1 : length(files)
+    poster{x} = imread(fullfile(pwd,'posters',files(x).name));
+end
+files = dir(fullfile(pwd, 'sellos', '*.png'));
+for x = 1 : length(files)
+    sello{x} = imread(fullfile(pwd,'sellos',files(x).name));
+end
+booth = imread('booth.png');
+gameover = imread('gameover.png');
+curlz = imread('curlz.png');
+secuencia = imread('secuencia.png');
+save('imagenes.mat', 'cara', 'poster', 'sello', 'booth', 'gameover', 'curlz', 'secuencia');
