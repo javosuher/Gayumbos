@@ -119,7 +119,7 @@ function [fecha, sello, cara]=iniciar_juego(handles);
     
     juego=dibuja(handles.sello{sello},handles.juego,310,850);
     juego=dibuja(colorea(handles.cara{cara}),juego,67,94);
-    juego=dibuja(handles.poster{randi(numel(handles.poster))},juego,248,30);
+    juego=dibuja(handles.poster{randi(numel(handles.poster))},juego,
     
     background = axes('unit', 'normalized', 'position', [0 0 1 1]);
     imagesc(juego); 
