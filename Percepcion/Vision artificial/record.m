@@ -1,8 +1,5 @@
-function image = record(show)
+function image = record()
     vid = videoinput('winvideo', 1);
     set(vid, 'ReturnedColorSpace', 'RGB');
     image = getsnapshot(vid);
-    if show == 1
-        figure, imshow(image);
-    end
 end
