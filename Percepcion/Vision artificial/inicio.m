@@ -22,7 +22,7 @@ function varargout = inicio(varargin)
 
 % Edit the above text to modify the response to help inicio
 
-% Last Modified by GUIDE v2.5 29-Jun-2014 23:37:36
+% Last Modified by GUIDE v2.5 30-Jun-2014 00:55:16
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -114,6 +114,7 @@ end
 % Inicialización de parámetros
 handles.editBrillo = 0;
 handles.contraste = 0;
+handles.editTiempo = 5;
 
 % Cargamos los días
 if exist('dias.mat')
@@ -355,7 +356,8 @@ function pushSave_Callback(hObject, eventdata, handles)
 
 brillo = handles.editBrillo;
 contraste = handles.contraste;
-save('parametros.mat', 'brillo', 'contraste');
+tiempo = handles.editTiempo;
+save('parametros.mat', 'brillo', 'contraste', 'tiempo');
 
 
 % --- Executes on button press in pushDeleteNombres.
@@ -558,6 +560,34 @@ function listboxSellos_CreateFcn(hObject, eventdata, handles)
 % handles    empty - handles not created until after all CreateFcns called
 
 % Hint: listbox controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function editTiempo_Callback(hObject, eventdata, handles)
+% hObject    handle to editTiempo (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of editTiempo as text
+%        str2double(get(hObject,'String')) returns contents of editTiempo as a double
+
+NewStrVal = get(hObject, 'String');
+NewVal = str2double(NewStrVal);
+handles.editTiempo = NewVal;
+guidata(hObject, handles);
+
+
+% --- Executes during object creation, after setting all properties.
+function editTiempo_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to editTiempo (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
 %       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
