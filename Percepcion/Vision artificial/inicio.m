@@ -497,11 +497,15 @@ files = dir(fullfile(pwd, 'sellos', '*.png'));
 for x = 1 : length(files)
     sello{x} = imread(fullfile(pwd,'sellos',files(x).name));
 end
+files = dir(fullfile(pwd, 'reloj', '*.png'));
+for x = 1 : length(files)
+    reloj{x} = imread(fullfile(pwd,'reloj',files(x).name));
+end
 booth = imread('booth.png');
 gameover = imread('gameover.png');
 curlz = imread('curlz.png');
 secuencia = imread('secuencia.png');
-save('imagenes.mat', 'cara', 'poster', 'sello', 'booth', 'gameover', 'curlz', 'secuencia');
+save('imagenes.mat', 'cara', 'poster', 'sello', 'reloj', 'booth', 'gameover', 'curlz', 'secuencia');
 
 
 % --- Executes on selection change in listboxCarteles.
