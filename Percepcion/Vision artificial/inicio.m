@@ -22,7 +22,7 @@ function varargout = inicio(varargin)
 
 % Edit the above text to modify the response to help inicio
 
-% Last Modified by GUIDE v2.5 29-Jun-2014 22:46:23
+% Last Modified by GUIDE v2.5 29-Jun-2014 23:37:36
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -115,15 +115,6 @@ end
 handles.editBrillo = 0;
 handles.contraste = 0;
 
-% Cargamos los nombres
-if exist('nombres.mat')
-    load('nombres.mat');
-    handles.names = nombres;
-    set(handles.listboxNames, 'string', {handles.names});
-else
-    handles.names = 'empty';
-end
-
 % Cargamos los días
 if exist('dias.mat')
     load('dias.mat');
@@ -132,6 +123,31 @@ if exist('dias.mat')
 else
     handles.days = NaN;
 end
+
+% Cargamos los Carteles
+axes(handles.carteles);
+files = dir(fullfile(pwd, 'posters', '*.png'));
+for x = 1 : length(files)
+    handles.posters{x} = imread(fullfile(pwd,'posters',files(x).name));
+end
+set(handles.listboxCarteles, 'string', {files.name});
+index = get(handles.listboxCarteles, 'value');
+if length(files) > 0
+    imshow(handles.posters{index}); 
+end
+
+% Cargamos los sellos
+axes(handles.sellos);
+files = dir(fullfile(pwd, 'sellos', '*.png'));
+for x = 1 : length(files)
+    handles.sell{x} = imread(fullfile(pwd,'sellos',files(x).name));
+end
+set(handles.listboxSellos, 'string', {files.name});
+index = get(handles.listboxSellos, 'value');
+if length(files) > 0
+    imshow(handles.sell{index}); 
+end
+
 
 guidata(hObject,handles);
 
@@ -342,60 +358,6 @@ contraste = handles.contraste;
 save('parametros.mat', 'brillo', 'contraste');
 
 
-% --- Executes on selection change in listboxNames.
-function listboxNames_Callback(hObject, eventdata, handles)
-% hObject    handle to listboxNames (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: contents = cellstr(get(hObject,'String')) returns listboxNames contents as cell array
-%        contents{get(hObject,'Value')} returns selected item from listboxNames
-
-
-% --- Executes during object creation, after setting all properties.
-function listboxNames_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to listboxNames (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: listbox controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-
-
-function editNames_Callback(hObject, eventdata, handles)
-% hObject    handle to editNames (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'String') returns contents of editNames as text
-%        str2double(get(hObject,'String')) returns contents of editNames as a double
-
-NewStrVal = get(hObject, 'String');
-if strcmp(handles.names, 'empty')
-    handles.names = NewStrVal;
-else
-    handles.names = strvcat(handles.names, NewStrVal);
-end
-set(handles.listboxNames, 'string', {handles.names});
-guidata(hObject,handles);
-
-% --- Executes during object creation, after setting all properties.
-function editNames_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to editNames (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-
 % --- Executes on button press in pushDeleteNombres.
 function pushDeleteNombres_Callback(hObject, eventdata, handles)
 % hObject    handle to pushDeleteNombres (see GCBO)
@@ -519,7 +481,13 @@ function pushGenerateImages_Callback(hObject, eventdata, handles)
 
 files = dir(fullfile(pwd, 'caras', '*.png'));
 for x = 1 : length(files)
-    cara{x} = imread(fullfile(pwd,'caras',files(x).name));
+    mask = rgb2gray(imread(fullfile(pwd,'caras',files(x).name)));
+    ind = find(mask == max(max(mask)));
+    mask(ind) = 0;
+    ind2 = find(mask==max(max(mask)));
+    mask(ind)=255;
+    mask(ind2)=255-80;
+    cara{x} = mask;
 end
 files = dir(fullfile(pwd, 'posters', '*.png'));
 for x = 1 : length(files)
@@ -534,3 +502,59 @@ gameover = imread('gameover.png');
 curlz = imread('curlz.png');
 secuencia = imread('secuencia.png');
 save('imagenes.mat', 'cara', 'poster', 'sello', 'booth', 'gameover', 'curlz', 'secuencia');
+
+
+% --- Executes on selection change in listboxCarteles.
+function listboxCarteles_Callback(hObject, eventdata, handles)
+% hObject    handle to listboxCarteles (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns listboxCarteles contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from listboxCarteles
+
+axes(handles.carteles);
+index = get(handles.listboxCarteles, 'value');
+imshow(handles.posters{index});
+guidata(hObject, handles);
+
+
+% --- Executes during object creation, after setting all properties.
+function listboxCarteles_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to listboxCarteles (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: listbox controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on selection change in listboxSellos.
+function listboxSellos_Callback(hObject, eventdata, handles)
+% hObject    handle to listboxSellos (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns listboxSellos contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from listboxSellos
+
+axes(handles.sellos);
+index = get(handles.listboxSellos, 'value');
+imshow(handles.sell{index});
+guidata(hObject, handles);
+
+
+% --- Executes during object creation, after setting all properties.
+function listboxSellos_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to listboxSellos (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: listbox controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
