@@ -94,20 +94,28 @@ liberados=0; pillado=false;
 
 %%%%%%%%%%%%%%%%%%%%% MAIN LOOP %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 set(handles.text, 'Visible', 'off')
-set(handles.text, 'Visible', 'off')
+set(handles.text1, 'Visible', 'off')
 secuencia_inicio(handles);
 while ~pillado
     iniciar_juego(handles);
     handles=guidata(handles.output);
     set(handles.text,'String',handles.ndia);
+    set(handles.text1, 'String', 'Pasaporte.')
     set(handles.text, 'Visible', 'on')
     %text(20,700,int2str(handles.ndia),'FontSize',200)
     pause(3);
+    set(handles.text1, 'Visible', 'on')
     espera(handles);
     handles=guidata(handles.output);
+    set(handles.text1, 'Visible', 'off')
     pillado=pasaporte(handles);
     if ~pillado
+        set(handles.text1, 'String', 'Pasaporte.')
+        pause(3);
+        set(handles.text1, 'Visible', 'on')
         espera(handles);
+        handles=guidata(handles.output);
+        set(handles.text1, 'Visible', 'off')
         pillado=permiso(handles);
     end
     if ~pillado
@@ -115,7 +123,13 @@ while ~pillado
         secuencia_juego(handles);
     end    
 end
+pause(2);
 secuencia_final(handles);
+set(handles.text, 'Visible', 'off')
+set(handles.text1, 'String', 'Dioses! Son Falsificaciones?!')
+set(handles.text1, 'Visible', 'on')
+pause(4); 
+set(handles.text1, 'String', ['Total rescatados: ' num2str(liberados)])
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function []=secuencia_inicio(handles);
@@ -159,11 +173,22 @@ function [pillado]=pasaporte(handles);
     captura=record();
     com=compacidad(captura);
     col=color(captura);
+    captura2 = imresize(captura, size(handles.cara{1}));
+    dibuja(handles,captura2,67,94);
+    handles=guidata(handles.output);
     
-    a=find(handle.patron(1,:)==col);
-    [c,b]=min(abs(handle.patron(2,a)-com));
+    background = axes('unit', 'normalized', 'position', [0 0 1 1]);
+    imagesc(handles.juego); 
+    set(background, 'handlevisibility', 'off', 'visible', 'off');
+    %%%%%%%%%%%%%%%%%DEBUG
+    figure, imshow(captura);
+    handles.ncara
+    handles.patron(:,handles.ncara);
+    %%%%%%%%%%%%%%%%%%%%%%
+    a=find(handles.patron(1,:)==col);
+    [c,b]=min(abs(handles.patron(2,a)-com));
     
-    if(c>1.5 || a(b)~= handles.ncara)
+    if(c>4|| a(b)~= handles.ncara)
         pillado=true;
     end
     
@@ -171,11 +196,18 @@ function [pillado]=permiso(handles);
     captura=record();
     com=compacidad(captura);
     col=color(captura);
+    captura2 = imresize(captura2, size(handles.cara{1}));
+    dibuja(handles,captura,67,94);
+    handles=guidata(handles.output);
     
-    a=find(handle.patron(1,:)==col);
-    [c,b]=min(abs(handle.patron(2,a)-com));
+    background = axes('unit', 'normalized', 'position', [0 0 1 1]);
+    imagesc(handles.juego); 
+    set(background, 'handlevisibility', 'off', 'visible', 'off');
     
-    if(c>1.5 || handles.patron2(a(b),:) ~= [handle.nsello; handle.ndia])
+    a=find(handles.patron(1,:)==col);
+    [c,b]=min(abs(handles.patron(2,a)-com));
+    
+    if(c>4 || handles.patron2(a(b),:) ~= [handles.nsello; handles.ndia])
         pillado=true;
     end
 

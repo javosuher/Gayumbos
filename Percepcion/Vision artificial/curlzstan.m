@@ -126,7 +126,7 @@ end
 pause(2);
 secuencia_final(handles);
 set(handles.text, 'Visible', 'off')
-set(handles.text1, 'String', 'Dioses! Que es eso?! Falsificaciones!! ')
+set(handles.text1, 'String', 'Dioses! Son Falsificaciones?!')
 set(handles.text1, 'Visible', 'on')
 pause(4); 
 set(handles.text1, 'String', ['Total rescatados: ' num2str(liberados)])
@@ -180,11 +180,15 @@ function [pillado]=pasaporte(handles);
     background = axes('unit', 'normalized', 'position', [0 0 1 1]);
     imagesc(handles.juego); 
     set(background, 'handlevisibility', 'off', 'visible', 'off');
-    
+    %%%%%%%%%%%%%%%%%DEBUG
+    figure, imshow(captura);
+    handles.ncara
+    handles.patron(:,handles.ncara)
+    %%%%%%%%%%%%%%%%%%%%%%
     a=find(handles.patron(1,:)==col);
     [c,b]=min(abs(handles.patron(2,a)-com));
     
-    if(c>1.5 || a(b)~= handles.ncara)
+    if(c>4|| a(b)~= handles.ncara)
         pillado=true;
     end
     
@@ -203,7 +207,7 @@ function [pillado]=permiso(handles);
     a=find(handles.patron(1,:)==col);
     [c,b]=min(abs(handles.patron(2,a)-com));
     
-    if(c>1.5 || handles.patron2(a(b),:) ~= [handles.nsello; handles.ndia])
+    if(c>4 || handles.patron2(a(b),:) ~= [handles.nsello; handles.ndia])
         pillado=true;
     end
 
