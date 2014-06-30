@@ -173,7 +173,8 @@ function [pillado]=pasaporte(handles);
     captura=record();
     com=compacidad(captura);
     col=color(captura);
-    dibuja(handles,captura,67,94);
+    captura2 = imresize(captura, size(handles.cara{1}));
+    dibuja(handles,captura2,67,94);
     handles=guidata(handles.output);
     
     background = axes('unit', 'normalized', 'position', [0 0 1 1]);
@@ -191,6 +192,7 @@ function [pillado]=permiso(handles);
     captura=record();
     com=compacidad(captura);
     col=color(captura);
+    captura2 = imresize(captura2, size(handles.cara{1}));
     dibuja(handles,captura,67,94);
     handles=guidata(handles.output);
     
