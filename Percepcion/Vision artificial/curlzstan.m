@@ -93,6 +93,14 @@ handles.juego=booth;
 liberados=0; pillado=false;
 
 %%%%%%%%%%%%%%%%%%%%% MAIN LOOP %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+if isunix
+	set(handles.text, 'position', [631 522 35 25])
+	set(handles.text1, 'position', [300 389 214 61])
+else 
+	set(handles.text, 'position', [633 526 35 34])
+	set(handles.text1, 'position', [356 378 175 52])
+end
+
 set(handles.text, 'Visible', 'off')
 set(handles.text1, 'Visible', 'off')
 secuencia_inicio(handles);
@@ -120,6 +128,7 @@ while ~pillado
     end
     if ~pillado
         liberados=liberados +1;
+        set(handles.text, 'Visible', 'off')
         secuencia_juego(handles);
     end    
 end
