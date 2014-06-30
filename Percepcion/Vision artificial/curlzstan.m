@@ -123,6 +123,7 @@ while ~pillado
         secuencia_juego(handles);
     end    
 end
+pause(2);
 secuencia_final(handles);
 set(handles.text, 'Visible', 'off')
 set(handles.text1, 'String', 'Dioses! Que es eso?! Falsificaciones!! ')
@@ -175,6 +176,10 @@ function [pillado]=pasaporte(handles);
     dibuja(handles,captura,67,94);
     handles=guidata(handles.output);
     
+    background = axes('unit', 'normalized', 'position', [0 0 1 1]);
+    imagesc(handles.juego); 
+    set(background, 'handlevisibility', 'off', 'visible', 'off');
+    
     a=find(handles.patron(1,:)==col);
     [c,b]=min(abs(handles.patron(2,a)-com));
     
@@ -188,6 +193,10 @@ function [pillado]=permiso(handles);
     col=color(captura);
     dibuja(handles,captura,67,94);
     handles=guidata(handles.output);
+    
+    background = axes('unit', 'normalized', 'position', [0 0 1 1]);
+    imagesc(handles.juego); 
+    set(background, 'handlevisibility', 'off', 'visible', 'off');
     
     a=find(handles.patron(1,:)==col);
     [c,b]=min(abs(handles.patron(2,a)-com));
