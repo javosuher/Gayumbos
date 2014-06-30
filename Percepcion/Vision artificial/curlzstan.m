@@ -206,7 +206,7 @@ function [pillado]=permiso(handles);
     imagesc(handles.juego); 
     set(background, 'handlevisibility', 'off', 'visible', 'off');
     
-    a=find(handles.patron(1,:)==col);
+    a=find(handles.patron(1,1:length(patron2))==col);
     [c,b]=min(abs(handles.patron(2,a)-com));
     
     if(c>4 || handles.patron2(a(b),:) ~= [handles.nsello; handles.ndia])
