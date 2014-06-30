@@ -176,6 +176,7 @@ uistack(handles.photosPersonajes, 'top')
 uistack(handles.carteles, 'top')
 uistack(handles.sellos, 'top')
 
+
 guidata(hObject,handles);
 
 
