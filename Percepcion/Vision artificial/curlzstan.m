@@ -110,7 +110,7 @@ while ~pillado
     set(handles.text1, 'Visible', 'off')
     pillado=pasaporte(handles);
     if ~pillado
-        set(handles.text1, 'String', 'Pasaporte.')
+        set(handles.text1, 'String', 'Permiso.')
         pause(3);
         set(handles.text1, 'Visible', 'on')
         espera(handles);
@@ -198,7 +198,7 @@ function [pillado]=permiso(handles);
     captura=record();
     com=compacidad(captura);
     col=color(captura);
-    captura2 = imresize(captura2, size(handles.cara{1}));
+    captura2 = imresize(captura, size(handles.cara{1}));
     dibuja(handles,captura,67,94);
     handles=guidata(handles.output);
     

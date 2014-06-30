@@ -110,7 +110,7 @@ while ~pillado
     set(handles.text1, 'Visible', 'off')
     pillado=pasaporte(handles);
     if ~pillado
-        set(handles.text1, 'String', 'Pasaporte.')
+        set(handles.text1, 'String', 'Permiso.')
         pause(3);
         set(handles.text1, 'Visible', 'on')
         espera(handles);
@@ -194,6 +194,7 @@ function [pillado]=pasaporte(handles);
     end
     
 function [pillado]=permiso(handles);
+	pillado=false;
     captura=record();
     com=compacidad(captura);
     col=color(captura);
