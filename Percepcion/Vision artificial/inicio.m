@@ -72,6 +72,12 @@ function varargout = inicio_OutputFcn(hObject, eventdata, handles)
 % Get default command line output from handles structure
 varargout{1} = handles.output;
 
+% Añadimos fondo de pantalla
+handles.fondo = imread('fondo.png');
+background = axes('unit', 'normalized', 'position', [0 0 1 1]);
+imagesc(handles.fondo); 
+set(background, 'handlevisibility', 'off', 'visible', 'off');
+
 % Iniciamos camara
 vid = videoinput('winvideo', 1, 'YUY2_176x144');
 vid.FramesPerTrigger = 1;
@@ -114,7 +120,7 @@ end
 % Inicialización de parámetros
 handles.editBrillo = 0;
 handles.contraste = 0;
-handles.editTiempo = 5;
+handles.editTiempo = 10;
 
 % Cargamos los días
 if exist('dias.mat')
@@ -149,6 +155,26 @@ if length(files) > 0
     imshow(handles.sell{index}); 
 end
 
+% Ponemos los paneles axes encima y con transparencia
+uistack(handles.uipanelFotos, 'top')
+set(handles.uipanelFotos,'BackgroundColor','none')
+uistack(handles.uipanelGenera, 'top')
+set(handles.uipanelGenera,'BackgroundColor','none')
+uistack(handles.uipanelParametros, 'top')
+set(handles.uipanelParametros,'BackgroundColor','none')
+uistack(handles.uipanelCaras, 'top')
+set(handles.uipanelCaras,'BackgroundColor','none')
+uistack(handles.uipanelDias, 'top')
+set(handles.uipanelDias,'BackgroundColor','none')
+uistack(handles.uipanelPosters, 'top')
+set(handles.uipanelPosters,'BackgroundColor','none')
+uistack(handles.uipanelSellos, 'top')
+set(handles.uipanelSellos,'BackgroundColor','none')
+uistack(handles.preview, 'top')
+uistack(handles.visual, 'top')
+uistack(handles.photosPersonajes, 'top')
+uistack(handles.carteles, 'top')
+uistack(handles.sellos, 'top')
 
 guidata(hObject,handles);
 
@@ -227,7 +253,16 @@ for i = 1 : length(handles.images)
     patron(1, i) = color(handles.images{i});
     patron(2, i) = compacidad(handles.images{i});
 end
-save('patrones.mat', 'patron');
+patron2 = zeros(2, length(handles.sell) * length(handles.days));
+k = 1;
+for i = 1 : numel(handles.sell)
+    for j = 1 : length(handles.days)
+        patron2(:, k) = [i; j];
+        k = k + 1;
+    end
+end
+        
+save('patrones.mat', 'patron', 'patron2');
 
 
 % --- Executes on selection change in listboxImages.
