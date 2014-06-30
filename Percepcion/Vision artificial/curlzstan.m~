@@ -214,7 +214,7 @@ function [pillado]=permiso(handles);
     handles.nsello
     c
     a(b)
-    handles.patron(
+    handles.patron2(:,a(b))
     %%%%%%%%%%%%%%%%%%%%%%
     %if(c>4 || handles.patron2(a(b),:) ~= [handles.nsello; handles.ndia])
     if(c>4 || handles.patron2(:,a(b)) ~= [handles.nsello; handles.ndia])
