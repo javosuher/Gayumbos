@@ -96,7 +96,7 @@ liberados=0; pillado=false;
 if isunix
 	set(handles.text, 'position', [631 522 35 25])
 	set(handles.text1, 'position', [300 389 214 61])
-else
+else 
 	set(handles.text, 'position', [633 526 35 34])
 	set(handles.text1, 'position', [356 378 175 52])
 end
@@ -125,6 +125,7 @@ while ~pillado
         handles=guidata(handles.output);
         set(handles.text1, 'Visible', 'off')
         pillado=permiso(handles);
+        pause(2);
     end
     if ~pillado
         liberados=liberados +1;

@@ -125,6 +125,7 @@ while ~pillado
         handles=guidata(handles.output);
         set(handles.text1, 'Visible', 'off')
         pillado=permiso(handles);
+        pause(2);
     end
     if ~pillado
         liberados=liberados +1;
