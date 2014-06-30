@@ -183,8 +183,8 @@ function [pillado]=pasaporte(handles);
     set(background, 'handlevisibility', 'off', 'visible', 'off');
     %%%%%%%%%%%%%%%%%DEBUG
     %figure, imshow(captura);
-    %handles.ncara
-    %handles.patron(:,handles.ncara)
+    handles.ncara
+    handles.patron(:,handles.ncara)
     %%%%%%%%%%%%%%%%%%%%%%
     a=find(handles.patron(1,:)==col);
     [c,b]=min(abs(handles.patron(2,a)-com));
@@ -208,8 +208,16 @@ function [pillado]=permiso(handles);
     
     a=find(handles.patron(1,1:length(patron2))==col);
     [c,b]=min(abs(handles.patron(2,a)-com));
-    
-    if(c>4 || handles.patron2(a(b),:) ~= [handles.nsello; handles.ndia])
+    %%%%%%%%%%%%%%%%%DEBUG
+    %figure, imshow(captura);
+    handles.ndia
+    handles.nsello
+    c
+    a(b)
+    handles.patron2(:,a(b))
+    %%%%%%%%%%%%%%%%%%%%%%
+    %if(c>4 || handles.patron2(a(b),:) ~= [handles.nsello; handles.ndia])
+    if(c>4 || handles.patron2(:,a(b)) ~= [handles.nsello; handles.ndia])
         pillado=true;
     end
 
