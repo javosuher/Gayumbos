@@ -206,7 +206,7 @@ function [pillado]=permiso(handles);
     imagesc(handles.juego); 
     set(background, 'handlevisibility', 'off', 'visible', 'off');
     
-    a=find(handles.patron(1,1:length(patron2))==col);
+    a=find(handles.patron(1,1:length(handles.patron2))==col);
     [c,b]=min(abs(handles.patron(2,a)-com));
     %%%%%%%%%%%%%%%%%DEBUG
     %figure, imshow(captura);
