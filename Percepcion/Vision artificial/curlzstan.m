@@ -124,7 +124,8 @@ while ~pillado
     end    
 end
 secuencia_final(handles);
-set(handles.text1, 'String', 'Dioses! Qué es eso?! Falsificaciones!! ')
+set(handles.text, 'Visible', 'off')
+set(handles.text1, 'String', 'Dioses! Que es eso?! Falsificaciones!! ')
 set(handles.text1, 'Visible', 'on')
 pause(4); 
 set(handles.text1, 'String', ['Total rescatados: ' num2str(liberados)])
@@ -171,6 +172,8 @@ function [pillado]=pasaporte(handles);
     captura=record();
     com=compacidad(captura);
     col=color(captura);
+    dibuja(handles,captura,67,94);
+    handles=guidata(handles.output);
     
     a=find(handles.patron(1,:)==col);
     [c,b]=min(abs(handles.patron(2,a)-com));
@@ -183,6 +186,8 @@ function [pillado]=permiso(handles);
     captura=record();
     com=compacidad(captura);
     col=color(captura);
+    dibuja(handles,captura,67,94);
+    handles=guidata(handles.output);
     
     a=find(handles.patron(1,:)==col);
     [c,b]=min(abs(handles.patron(2,a)-com));
