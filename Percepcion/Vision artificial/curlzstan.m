@@ -74,8 +74,10 @@ varargout{1} = handles.output;
 
 %%%%%%%%%%%%%%%%%%%%% DECLARACIONES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 rng('shuffle');
-load parametros.mat; load dias.mat; load('imagenes.mat'); %cara(), poster(), sello(), booth, gameover, curlz, secuencia
-handles.tiempo=5;
+load parametros.mat; load 'dias.mat'; load 'patrones.mat'; load 'imagenes.mat'; %cara(), poster(), sello(), booth, gameover, curlz, secuencia
+handles.patron=patron;
+handles.patron2=patron2;
+handles.tiempo=tiempo;
 handles.dias=dias;
 handles.ndia=0;
 handles.secuencia=secuencia;
@@ -92,26 +94,40 @@ liberados=0; pillado=false;
 
 %%%%%%%%%%%%%%%%%%%%% MAIN LOOP %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 set(handles.text, 'Visible', 'off')
+set(handles.text1, 'Visible', 'off')
 secuencia_inicio(handles);
 while ~pillado
     iniciar_juego(handles);
     handles=guidata(handles.output);
     set(handles.text,'String',handles.ndia);
+    set(handles.text1, 'String', 'Pasaporte.')
     set(handles.text, 'Visible', 'on')
     %text(20,700,int2str(handles.ndia),'FontSize',200)
+    pause(3);
+    set(handles.text1, 'Visible', 'on')
     espera(handles);
     handles=guidata(handles.output);
-    pillado=pasaporte(handles,hObject);
+    set(handles.text1, 'Visible', 'off')
+    pillado=pasaporte(handles);
     if ~pillado
-        espera(handles,hObject);
-        pillado=permiso(handles,hObject);
+        set(handles.text1, 'String', 'Pasaporte.')
+        pause(3);
+        set(handles.text1, 'Visible', 'on')
+        espera(handles);
+        handles=guidata(handles.output);
+        set(handles.text1, 'Visible', 'off')
+        pillado=permiso(handles);
     end
     if ~pillado
         liberados=liberados +1;
-        secuencia_juego(handles,hObject);
+        secuencia_juego(handles);
     end    
 end
-secuencia_final(handles,hObject);
+secuencia_final(handles);
+set(handles.text1, 'String', 'Dioses! Qué es eso?! Falsificaciones!! ')
+set(handles.text1, 'Visible', 'on')
+pause(4); 
+set(handles.text1, 'String', 'Total rescatados: ',liberados)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function []=secuencia_inicio(handles);
@@ -131,6 +147,8 @@ function []=iniciar_juego(handles,hObject);
     handles=guidata(handles.output);
     dibuja(handles,colorea(handles.cara{handles.ncara}),67,94);
     handles=guidata(handles.output);
+    dibuja(handles,handles.reloj{1},9,481);
+    handles=guidata(handles.output);
     pause();
     background = axes('unit', 'normalized', 'position', [0 0 1 1]);
     imagesc(handles.juego); 
@@ -149,13 +167,39 @@ function []=espera(handles);
     end
     guidata(handles.output, handles);
 
-function [pillado]=pasaporte(handles,hObject);
+function [pillado]=pasaporte(handles);
+    captura=record();
+    com=compacidad(captura);
+    col=color(captura);
+    
+    a=find(handle.patron(1,:)==col);
+    [c,b]=min(abs(handle.patron(2,a)-com));
+    
+    if(c>1.5 || a(b)~= handles.ncara)
+        pillado=true;
+    end
+    
+function [pillado]=permiso(handles);
+    captura=record();
+    com=compacidad(captura);
+    col=color(captura);
+    
+    a=find(handle.patron(1,:)==col);
+    [c,b]=min(abs(handle.patron(2,a)-com));
+    
+    if(c>1.5 || handles.patron2(a(b),:) ~= [handle.nsello; handle.ndia])
+        pillado=true;
+    end
 
-function [pillado]=permiso(handles,hObject);
+function []=secuencia_juego(handles);
+    background = axes('unit', 'normalized', 'position', [0 0 1 1]);
+    imagesc(handles.secuencia);
+    set(background, 'handlevisibility', 'off', 'visible', 'off');
 
-function []=secuencia_juego(handles,hObject);
-
-function []=secuencia_final(handles,hObject);
+function []=secuencia_final(handles);
+    background = axes('unit', 'normalized', 'position', [0 0 1 1]);
+    imagesc(handles.gameover);
+    set(background, 'handlevisibility', 'off', 'visible', 'off');
 
 function [] = dibuja(handles,a, x, y)
     handles.juego(x:x+size(a,1)-1,y:y+size(a,2)-1,:)=a;
