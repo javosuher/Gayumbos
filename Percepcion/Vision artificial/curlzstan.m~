@@ -170,6 +170,7 @@ function []=espera(handles);
     guidata(handles.output, handles);
 
 function [pillado]=pasaporte(handles);
+	pillado=false;
     captura=record();
     com=compacidad(captura);
     col=color(captura);
@@ -181,9 +182,9 @@ function [pillado]=pasaporte(handles);
     imagesc(handles.juego); 
     set(background, 'handlevisibility', 'off', 'visible', 'off');
     %%%%%%%%%%%%%%%%%DEBUG
-    figure, imshow(captura);
-    handles.ncara
-    handles.patron(:,handles.ncara);
+    %figure, imshow(captura);
+    %handles.ncara
+    %handles.patron(:,handles.ncara)
     %%%%%%%%%%%%%%%%%%%%%%
     a=find(handles.patron(1,:)==col);
     [c,b]=min(abs(handles.patron(2,a)-com));
