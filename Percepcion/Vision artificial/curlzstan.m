@@ -127,7 +127,7 @@ secuencia_final(handles);
 set(handles.text1, 'String', 'Dioses! Qué es eso?! Falsificaciones!! ')
 set(handles.text1, 'Visible', 'on')
 pause(4); 
-set(handles.text1, 'String', 'Total rescatados: ',liberados)
+set(handles.text1, 'String', ['Total rescatados: ' num2str(liberados)])
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function []=secuencia_inicio(handles);
@@ -172,8 +172,8 @@ function [pillado]=pasaporte(handles);
     com=compacidad(captura);
     col=color(captura);
     
-    a=find(handle.patron(1,:)==col);
-    [c,b]=min(abs(handle.patron(2,a)-com));
+    a=find(handles.patron(1,:)==col);
+    [c,b]=min(abs(handles.patron(2,a)-com));
     
     if(c>1.5 || a(b)~= handles.ncara)
         pillado=true;
@@ -184,10 +184,10 @@ function [pillado]=permiso(handles);
     com=compacidad(captura);
     col=color(captura);
     
-    a=find(handle.patron(1,:)==col);
-    [c,b]=min(abs(handle.patron(2,a)-com));
+    a=find(handles.patron(1,:)==col);
+    [c,b]=min(abs(handles.patron(2,a)-com));
     
-    if(c>1.5 || handles.patron2(a(b),:) ~= [handle.nsello; handle.ndia])
+    if(c>1.5 || handles.patron2(a(b),:) ~= [handles.nsello; handles.ndia])
         pillado=true;
     end
 
